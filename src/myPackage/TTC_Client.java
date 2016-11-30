@@ -1,5 +1,5 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+package myPackage;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -9,98 +9,90 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class TTC_Client {
-/*커밋커밋*/
-	BufferedReader in;
-	PrintWriter out;
-	JFrame frame = new JFrame("Time To Catch");
-	JLabel label = new JLabel("Welcome to Time to Catch");
-    JTextField textField = new JTextField(40);
-    JTextArea messageArea = new JTextArea(8, 40);
 
-	Dimension dim = new Dimension(1024, 768);
+	BufferedReader in;
+	static PrintWriter out;
+	JFrame frame = new JFrame("Time To Catch!");
+	JTextField textField = new JTextField(40);
+	JTextArea messageArea = new JTextArea(8, 40);	
 
 	public TTC_Client() {
+
+		// Layout GUI - 이거 GUI 다 되면 고쳐야 함!
 		new MyFrame();
 
-	}
-	private String getServerAddress() {
-		return JOptionPane.showInputDialog(frame, "Enter IP Address of the Server:", "Welcome to the Chatter",
-				JOptionPane.QUESTION_MESSAGE);
+		// Add Listeners
+//		textField.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				out.println(textField.getText());
+//				textField.setText("");
+//			}
+//		});
 	}
 
 	private String getName() {
-		return JOptionPane.showInputDialog(frame, "Choose a screen name:", "Screen name selecion",
-				JOptionPane.PLAIN_MESSAGE);
+		return JOptionPane.showInputDialog(frame, "Enter your name:", "Name selection", JOptionPane.PLAIN_MESSAGE);
+	}// 이건 첫번쨰 name 받을때
 
+	private String getName(String str) {
+		return JOptionPane.showInputDialog(frame, str, "Name selection", JOptionPane.PLAIN_MESSAGE);
 	}
 
-	class MyFrame extends JFrame {
-		MyFrame() {
-			setTitle("Time To Catch");
-			setLocation(500,200);
-			setSize(1024, 768);
-			makeUI();
-			setVisible(false);
-		}
+	private void run() throws IOException {
 
-		private void makeUI() {
-			JLabel lb = new JLabel("Welcome to TTC");
-			lb.setHorizontalAlignment(JLabel.CENTER);
-			add(lb, BorderLayout.CENTER);
-			JTextField messageField = new JTextField();
-			JTextArea messageArea = new JTextArea(1, 40);
-			frame.setLocation(200, 400);
-			frame.setPreferredSize(dim);
-			frame.getContentPane().add(messageField, "North");
-			frame.getContentPane().add(new JScrollPane(messageArea), "Center");
-			frame.pack();
+		// Make connection and initialize streams
+		String serverAddress = "192.168.0.20";// Set server IP address
+		Socket socket = new Socket(serverAddress, 9001);
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		out = new PrintWriter(socket.getOutputStream(), true);
+		String line;
 
-			messageField.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					out.println(messageField.getText());
-					messageField.setText("");
-				}
-			});
-		}
+		while (true) {
+			int c = 1;
+			line = in.readLine();
+			System.out.println(line);
+			if (line.startsWith("SUBMITNAME") && c == 1)
+			{
+				out.println(getName());
+			}
+			else if (line.startsWith("NAMEACCEPTED")) {
+				textField.setEditable(true);
+				break;
+			} else
+				out.println(getName("Enter another name:"));
+			c++;
+			frame.setVisible(false);
+		} // set user's name!
+		
+		// game Start!
+		line = in.readLine();
+		if (line.startsWith(""))
+			gameStart();
+
+		// game ends!
+		socket.close();
+	}
+
+	public static void sendMode(String m)
+	{
+		out.println("MODE "+m);
 	}
 	
-    private void run() throws IOException {
+	private void gameStart() throws IOException {
+		
+	}
 
-        // Make connection and initialize streams
-        String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9001);
-        in = new BufferedReader(new InputStreamReader(
-            socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
-
-        // Process all messages from server, according to the protocol.
-
-        while (true) {
-            String line = in.readLine();
-            if (line.startsWith("SUBMITNAME")) {	//if the message from server is start with "SUBMITNAME"
-                out.println(getName());		//send the name from user to server
-            } else if (line.startsWith("NAMEACCEPTED")) {	//else if the name accepted, text field mode is change false to true
-                textField.setEditable(true);
-            } else if (line.startsWith("MESSAGE")) {	//else if the message is start with "MESSAGE ", print the message on client screen
-                messageArea.append(line.substring(5) + "\n");
-            }
-        }
-    }
-    
-    
 	public static void main(String[] args) throws Exception {
 		TTC_Client client = new TTC_Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		client.frame.setVisible(false);
+		client.frame.setResizable(false);
 		client.run();
 	}
-
-
-
 }
