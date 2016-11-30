@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class TTC_Server {
 
+	/*Ä¿¹ÔÄ¿¹Ô*/
 	private static final int PORT = 1109;
 	private static ArrayList<String> names = new ArrayList<String>();
 	private static ArrayList<PrintWriter> writers = new ArrayList<PrintWriter>();
