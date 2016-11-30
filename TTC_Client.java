@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class TTC_Client {
-
+/*Ä¿¹ÔÄ¿¹Ô*/
 	BufferedReader in;
 	PrintWriter out;
 	JFrame frame = new JFrame("Time To Catch");
