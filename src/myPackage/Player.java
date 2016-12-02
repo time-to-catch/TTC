@@ -11,6 +11,13 @@ public class Player extends PersonInfo {
 		team = Team.NONE;
 	}
 	
+	Player()
+	{
+		super();
+		room = -1;
+		team = Team.NONE;
+	}
+	
 	public int getRoom()
 	{
 		return this.room;
