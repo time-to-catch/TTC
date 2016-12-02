@@ -93,9 +93,18 @@ public class TTC_Client {
 		System.out.println(line);
 		line = in.readLine();
 		System.out.println(line);
-		if(line.startsWith(""))
+		if(line.startsWith("TEAM"))
 		{
+			line = line.substring(5, line.length());
 			
+			if(line.equalsIgnoreCase("infectee"))
+			{
+				
+			}
+			else
+			{
+				
+			}
 		}
 	}
 
