@@ -57,9 +57,10 @@ public class TTC_Client {
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
 		String line;
-
+		int c = 1;
+		
 		while (true) {
-			int c = 1;
+			
 			line = in.readLine();
 			System.out.println(line);
 			if (line.startsWith("SUBMITNAME") && c == 1) {
