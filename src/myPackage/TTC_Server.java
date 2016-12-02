@@ -1,7 +1,5 @@
 package myPackage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,11 +7,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import org.omg.Messaging.SyncScopeHelper;
-
-import java.util.Random;
 
 public class TTC_Server {
 
@@ -32,7 +25,6 @@ public class TTC_Server {
 			while (true) {
 				new Handler(listener.accept()).start();
 			}
-
 		} finally {
 			listener.close();
 		}

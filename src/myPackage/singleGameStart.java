@@ -34,7 +34,7 @@ public class singleGameStart {
 		setUserPlace(currentPlayers.size());
 		
 		for(int i=0;i<currentPlayers.size();i++){
-			System.out.println(currentPlayers.get(i).getName()+", team : "
+			System.out.println(currentPlayers.get(i).getName()+", "
 					+currentPlayers.get(i).getTeam()+", location : "+currentPlayers.get(i).getRoom());
 		}
 		
