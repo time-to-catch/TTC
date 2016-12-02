@@ -57,8 +57,8 @@ public class TTC_Client {
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
 		String line;
-		int c = 1;
 		
+		int c = 1;
 		while (true) {
 			
 			line = in.readLine();
