@@ -21,8 +21,6 @@ public class TTC_Server {
 	private static ArrayList<String> names = new ArrayList<String>();
 	private static ArrayList<Player> singlePlayers = new ArrayList<Player>();
 	private static ArrayList<Player> teamPlayers = new ArrayList<Player>();
-	public static gameStart[] singleGameList = new gameStart[4];
-	public static gameStart[] teamGameList = new gameStart[4];
 	public static int totalcnt = 0;
 
 	public static void main(String[] args) throws Exception {
