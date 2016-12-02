@@ -76,6 +76,7 @@ public class TTC_Client {
 
 		// game Start!
 		line = in.readLine();
+		System.out.println(line);
 		if (line.startsWith("GAMESTART"))
 			gameStart();
 

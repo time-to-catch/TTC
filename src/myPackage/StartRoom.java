@@ -85,7 +85,7 @@ class MyActionListener implements ActionListener {
       // TODO Auto-generated method stub
       JButton b = (JButton) e.getSource();
 
-     // TTC_Client.sendMode(b.getText());
+      TTC_Client.sendMode(b.getText());
      
       WaitingRoom wait = new WaitingRoom(b.getText());
    }
