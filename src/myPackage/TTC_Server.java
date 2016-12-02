@@ -10,16 +10,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.omg.Messaging.SyncScopeHelper;
+
 import java.util.Random;
 
 public class TTC_Server {
 
-	/*Ä¿¹ÔÄ¿¹Ô*/
-	private static final int PORT = 1109;
+	private static final int PORT = 9001;
 	private static ArrayList<String> names = new ArrayList<String>();
-	private static ArrayList<PrintWriter> writers = new ArrayList<PrintWriter>();
-	private static ArrayList<PrintWriter> infectee = new ArrayList<PrintWriter>();
-	private static ArrayList<PrintWriter> nonInfectee = new ArrayList<PrintWriter>();
+	private static ArrayList<Player> singlePlayers = new ArrayList<Player>();
+	private static ArrayList<Player> teamPlayers = new ArrayList<Player>();
+	public static gameStart[] singleGameList = new gameStart[4];
+	public static gameStart[] teamGameList = new gameStart[4];
+	public static int totalcnt = 0;
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("TTC server is running.");
@@ -42,7 +46,6 @@ public class TTC_Server {
 		private Socket socket;
 		private BufferedReader inFromClient;
 		private PrintWriter outToClient;
-		public int currentRoom;
 
 		String[] room;
 
@@ -66,131 +69,52 @@ public class TTC_Server {
 					synchronized (names) {
 						if (!names.contains(name)) {
 							names.add(name);
+							System.out.println("User -" + name + "- Login complete");
 							break;
 						}
 					}
 				}
+				outToClient.println("NAMEACCEPTED");
+				totalcnt++;
+				System.out.println("number of total person: " + totalcnt);
 
-				// 2 player game or team play game?
-				// if players are even number?
-				if (names.indexOf(name) % 2 == 0) {
-					infectee.add(outToClient);
+				String mode;
+				Player temp = new Player();
+				mode = inFromClient.readLine();
+
+				if (mode.startsWith("MODE")) {
+
+					mode = mode.substring(5, mode.length());
+					temp.name = name;
+					temp.mode = Mode.valueOf(mode);
+					if (temp.getMode() == Mode.TEAM)
+						teamPlayers.add(temp);
+					else if (temp.getMode() == Mode.SINGLE)
+						singlePlayers.add(temp);
+
+					System.out.println("user " + temp.getName() + " enter " + temp.getMode());
+
 				} else {
-					nonInfectee.add(outToClient);
+					System.out.println("Mode Error");
 				}
-				// if not? wait
+				System.out.println("num of Single Match: " + singlePlayers.size());
+				System.out.println("num of Team Match: " + teamPlayers.size());
 
-				gameStart();
+				System.out.println("");
+
+				// change mode to GAMEMODE
+
+				System.out.println("game start");
+				outToClient.println("GAMESTART");
+				if (singlePlayers.size() == 2)
+					new gameStart(singlePlayers);
+				else if (teamPlayers.size() == 4)
+					new gameStart(teamPlayers);
 
 			} catch (IOException e) {
 				System.out.println(e);
 			}
 		}
 
-		String answer = null;
-
-		public void gameStart() throws IOException {
-
-			try {
-				inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				outToClient = new PrintWriter(socket.getOutputStream(), true);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			outToClient.println("GAMESTART"); // if client receive this message,
-												// change mode to GAMEMODE
-			// °¨¿°ÀÚÀÎÁö ºñ°¨¿°ÀÚÀÎÁö º¸³»Áà¾ßÇÔ
-
-			makeRoom(names.size());
-			setUserPlace(names.size());
-			problemSender();
-			answerCheck();
-
-		}
-
-		public void makeRoom(int numUser) {
-			room = new String[numUser * 3]; // empty : 'E', exist: index of
-											// names
-			for (int i = 0; i < numUser * 3; i++) {
-				room[i] = "E";
-			}
-		}
-
-		public void setUserPlace(int numUser) {
-			int fraction = 3;
-			for (int i = 0; i < numUser; i++) {
-				room[i * fraction] = String.valueOf(i);
-				currentRoom = i * fraction;
-			}
-
-		}
-
-		public void goNextRoom() {
-
-		}
-
-		public void problemSender() {
-			try {
-				inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				outToClient = new PrintWriter(socket.getOutputStream(), true);
-
-				int fileNum = (int) (Math.random() + 1); // (int)(Math.random()*'problem
-															// number' + 1)
-				String fileName = fileNum + ".txt";
-				Scanner fileReader = null;
-
-				// file open
-				try {
-					fileReader = new Scanner(new File(fileName));
-					System.out.println("Opening file " + fileName);
-				} catch (FileNotFoundException e) {
-					System.out.println("Error opening file " + fileName);
-					System.exit(0);
-				}
-
-				// transfer problem
-				String problem = null;
-				outToClient = new PrintWriter(socket.getOutputStream(), true);
-				while (true) {
-					while (fileReader.hasNextLine()) {
-						problem = fileReader.nextLine();
-						if (!problem.startsWith("ANSWER")) {
-							outToClient.println(problem);
-						} else {
-							answer = problem.substring(7, problem.length());
-						}
-					}
-					fileReader.close();
-				}
-			} catch (IOException e) {
-				System.out.println(e);
-			}
-		}
-
-		public void answerCheck() throws IOException {
-			try {
-				inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				outToClient = new PrintWriter(socket.getOutputStream(), true);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			String ClientA;
-			String ServerA;
-			ClientA = inFromClient.readLine();
-			ServerA = answer;
-
-			if (ClientA.equalsIgnoreCase(ServerA)) {
-				outToClient.println("CORRECT! GO to next room!");
-				goNextRoom();
-			} else {
-				outToClient.println("INCORRECT! Go to next Problem.");
-				problemSender();
-			}
-
-		}
 	}
 }
