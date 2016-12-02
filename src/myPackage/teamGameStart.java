@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class gameStart {
+public class teamGameStart {
 	
 	private Socket socket;
 	private BufferedReader inFromClient;
@@ -20,7 +20,7 @@ public class gameStart {
 	private static int roomSize;
 	public int currentRoom;
 	String answer = null;
-	public gameStart(ArrayList<Player> singlePlayers) {
+	public teamGameStart(ArrayList<Player> singlePlayers) {
 		currentPlayers= singlePlayers;
 		System.out.println("-Player List-");
 		for(int i=0;i<singlePlayers.size();i++){

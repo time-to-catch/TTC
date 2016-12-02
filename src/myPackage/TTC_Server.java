@@ -95,22 +95,24 @@ public class TTC_Server {
 				} else {
 					System.out.println("Mode Error");
 				}
+				System.out.println("");
 				System.out.println("num of Single Match: " + singlePlayers.size());
 				System.out.println("num of Team Match: " + teamPlayers.size());
-
 				System.out.println("");
 
 				// change mode to GAMEMODE
 
-				System.out.println("game start");
+				
 			
 				if (singlePlayers.size() == 2){
-					outToClient.println("GAMESTART");
-					new gameStart(singlePlayers);
+					System.out.println("Single Match start");
+					outToClient.println("SINGLEGAMESTART");
+					new singleGameStart(singlePlayers);
 					}
 				else if (teamPlayers.size() == 4){
-					outToClient.println("GAMESTART");
-					new gameStart(teamPlayers);
+					System.out.println("Team Match start");
+					outToClient.println("TEAMGAMESTART");
+					new teamGameStart(teamPlayers);
 				}
 			} catch (IOException e) {
 				System.out.println(e);
