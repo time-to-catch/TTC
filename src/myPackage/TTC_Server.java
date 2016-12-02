@@ -85,6 +85,7 @@ public class TTC_Server {
 					mode = mode.substring(5, mode.length());
 					temp.name = name;
 					temp.mode = Mode.valueOf(mode);
+					temp.setPrintWriter(outToClient);
 					if (temp.getMode() == Mode.TEAM)
 						teamPlayers.add(temp);
 					else if (temp.getMode() == Mode.SINGLE)

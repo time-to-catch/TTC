@@ -1,8 +1,11 @@
 package myPackage;
 
+import java.io.PrintWriter;
+
 public class Player extends PersonInfo {
 	public int room;
 	public Team team;
+	private PrintWriter outToClient;
 	
 	Player(Mode m)
 	{
@@ -16,6 +19,11 @@ public class Player extends PersonInfo {
 		super();
 		room = -1;
 		team = Team.NONE;
+	}
+	
+	public void setPrintWriter(PrintWriter o)
+	{
+		outToClient = o;
 	}
 	
 	public int getRoom()
@@ -36,5 +44,10 @@ public class Player extends PersonInfo {
 	public void setTeam(Team t)
 	{
 		this.team = t;
+	}
+	
+	public void toClient(String str)
+	{
+		outToClient.println(str);
 	}
 }

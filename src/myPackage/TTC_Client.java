@@ -89,7 +89,14 @@ public class TTC_Client {
 	}
 
 	private void gameStart() throws IOException {
-		
+		String line = in.readLine();
+		System.out.println(line);
+		line = in.readLine();
+		System.out.println(line);
+		if(line.startsWith(""))
+		{
+			
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
