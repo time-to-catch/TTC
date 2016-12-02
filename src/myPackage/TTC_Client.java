@@ -28,7 +28,7 @@ public class TTC_Client {
 		getFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame.setLayout(null);
 		getFrame.setBounds(200, 0, 1052, 764);
-		getFrame.add(new MainMenu());
+		getFrame.add(new StartRoom());
 		getFrame.setVisible(true);
 
 	}
