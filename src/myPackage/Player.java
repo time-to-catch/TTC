@@ -3,21 +3,21 @@ package myPackage;
 import java.io.PrintWriter;
 
 public class Player extends PersonInfo {
-	public int room;
+	public int currentRoom;
 	public Team team;
 	private PrintWriter outToClient;
 	
 	Player(Mode m)
 	{
 		super(m);
-		room = -1;
+		currentRoom = -1;
 		team = Team.NONE;
 	}
 	
 	Player()
 	{
 		super();
-		room = -1;
+		currentRoom = -1;
 		team = Team.NONE;
 	}
 	
@@ -28,12 +28,12 @@ public class Player extends PersonInfo {
 	
 	public int getRoom()
 	{
-		return this.room;
+		return this.currentRoom;
 	}
 	
 	public void setRoom(int num)
 	{
-		this.room = num;
+		this.currentRoom = num;
 	}
 	
 	public Team getTeam()

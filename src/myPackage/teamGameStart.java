@@ -20,23 +20,44 @@ public class teamGameStart {
 	private static int roomSize;
 	public int currentRoom;
 	String answer = null;
-	public teamGameStart(ArrayList<Player> singlePlayers) {
+	
+	public teamGameStart(ArrayList<Player> singlePlayers) throws IOException {
 		currentPlayers= singlePlayers;
 		System.out.println("-Player List-");
 		for(int i=0;i<singlePlayers.size();i++){
 			System.out.println("user name : "+currentPlayers.get(i).getName());
 		}
-	}
-
-	public void gameStart() throws IOException {
 		
-		// °¨¿°ÀÚÀÎÁö ºñ°¨¿°ÀÚÀÎÁö º¸³»Áà¾ßÇÔ
-
+		divdeTeam();
 		setRoomSize(currentPlayers.size());
 		setUserPlace(currentPlayers.size());
+		
+		for(int i=0;i<currentPlayers.size();i++){
+			System.out.println(currentPlayers.get(i).getName()+", team : "
+					+currentPlayers.get(i).getTeam()+", location : "+currentPlayers.get(i).getRoom());
+		}
+		
+		gameStart();
+		
+	}
+	public void gameStart() throws IOException {
+	
 		problemSender();
 		answerCheck();
 
+	}
+	
+	public void divdeTeam(){
+		for(int i=0;i<currentPlayers.size();i++){
+			if(i%2==0){
+				currentPlayers.get(i).toClient("TEAM INFECTEE");
+				currentPlayers.get(i).setTeam(Team.INFECTEE);
+			}
+			else{
+				currentPlayers.get(i).toClient("TEAM NONINFECTEE");
+				currentPlayers.get(i).setTeam(Team.NONINFECTEE);
+			}
+		}
 	}
 
 	public int getRoomSize(){
@@ -48,11 +69,11 @@ public class teamGameStart {
 	}
 
 	public void setUserPlace(int numUser) {
-		int fraction = 3;
-		
-
+		for(int i=0;i<currentPlayers.size();i++){
+			currentPlayers.get(i).setRoom(i*3);
+		}
 	}
-
+	
 	public void goNextRoom() {
 
 	}
