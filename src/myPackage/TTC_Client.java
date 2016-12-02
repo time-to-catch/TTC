@@ -25,7 +25,7 @@ public class TTC_Client {
 	public TTC_Client() {
 
 		// Layout GUI - 이거 GUI 다 되면 고쳐야 함!
-		new MyFrame();
+		new StartRoom();
 
 		// Add Listeners
 //		textField.addActionListener(new ActionListener() {
