@@ -28,14 +28,14 @@ public class TTC_Client {
 		getFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame.setLayout(null);
 		getFrame.setBounds(200, 0, 1052, 764);
-		getFrame.add(new StartRoom());
+		getFrame.add(new MainMenu());
 		getFrame.setVisible(true);
 
 	}
 
 	private String getName() {
 		return JOptionPane.showInputDialog(frame, "Enter your name:", "Name selection", JOptionPane.PLAIN_MESSAGE);
-	}// ÀÌ°Ç Ã¹¹ø¤Š name ¹ÞÀ»¶§
+	}// Ã€ÃŒÂ°Ã‡ ÃƒÂ¹Â¹Ã¸Â¤Å  name Â¹ÃžÃ€Â»Â¶Â§
 
 	private String getName(String str) {
 		return JOptionPane.showInputDialog(frame, str, "Name selection", JOptionPane.PLAIN_MESSAGE);
