@@ -24,11 +24,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class GameRoomUI extends JPanel{
+	String imageFile;
 	
-	public GameRoomUI() {
+	
+	public GameRoomUI(String file) {
 		
 	      setName("Time To Catch");
-
+	      imageFile = file;
 	      makeUI();
 	      //setLocation(500,200);
 	      setSize(1052, 764);
@@ -141,7 +143,7 @@ public class GameRoomUI extends JPanel{
 	   public void paintComponent(Graphics g) {// Graphics객체는 그릴수 있는 도구.
 	        
 		  super.paintComponent(g);
-	      Image backImg = new ImageIcon("frame.png").getImage();
+	      Image backImg = new ImageIcon(imageFile).getImage();
 	      g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
 
 	   }

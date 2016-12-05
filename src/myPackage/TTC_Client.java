@@ -99,11 +99,11 @@ public class TTC_Client {
 			
 			if(line.equalsIgnoreCase("infectee"))
 			{
-				
+				new GameRoomUI("TTC_Gui_infectee.png");
 			}
 			else
 			{
-				
+				new GameRoomUI("TTC_Gui_Noninfectee.png");
 			}
 		}
 	}
