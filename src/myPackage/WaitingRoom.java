@@ -9,6 +9,7 @@ public class WaitingRoom extends JFrame{
 		
 		JFrame frame = new JFrame("Waiting");
 		frame.setLayout(null);
+		frame.setUndecorated(true);
 		
 		JLabel text = new JLabel("Searching for another users.");
 		text.setFont(new Font("±Ã¼­", 15, 15));
