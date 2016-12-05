@@ -54,15 +54,15 @@ public class TTC_Client {
 	private void run() throws IOException {
 
 		// Make connection and initialize streams
-		String serverAddress = "192.168.0.22";// Set server IP address
+		String serverAddress = "172.16.33.89";// Set server IP address
 		Socket socket = new Socket(serverAddress, 9001);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
 		String line;
-
+		
 		int c = 1;
 		while (true) {
-
+			
 			line = in.readLine();
 			System.out.println(line);
 			if (line.startsWith("SUBMITNAME") && c == 1) {
@@ -88,9 +88,13 @@ public class TTC_Client {
 		// 문제 맞으면 correct name으로 서버에 보내주기!
 		// 틀리면 incorrect name으로 보내주기!
 
+		
+		//문제 맞으면 correct name으로 서버에 보내주기!
+		//틀리면 incorrect name으로 보내주기!
+		
 		// game ends!
-		// WindowHandler.windowClosing(null);
-		// windowHandler.windowClosing은 어떻게 쓰는거징...?
+		//WindowHandler.windowClosing(null);
+		//windowHandler.windowClosing은 어떻게 쓰는거징...?
 		socket.close();
 	}
 
@@ -108,19 +112,22 @@ public class TTC_Client {
 		System.out.println(line);
 		line = in.readLine();
 		System.out.println(line);
-		if (line.startsWith("TEAM")) {
+		if(line.startsWith("TEAM"))
+		{
 			line = line.substring(5, line.length());
-
-			if (line.equalsIgnoreCase("infectee"))
+			
+			if(line.equalsIgnoreCase("infectee"))
 				new GameRoomUI("TTC_Gui_infectee.png");
 			else
 				new GameRoomUI("TTC_Gui_Noninfectee.png");
 		}
-
+		
+		
 	}
-
+	
 	public void answerCheck() throws IOException {
-
+		
+		
 	}
 
 	public static void main(String[] args) throws Exception {
