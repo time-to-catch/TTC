@@ -34,7 +34,7 @@ public class teamGameStart {
 		
 		for(int i=0;i<currentPlayers.size();i++){
 			System.out.println(currentPlayers.get(i).getName()+", "
-					+currentPlayers.get(i).getTeam()+", location : "+currentPlayers.get(i).getRoom());
+					+currentPlayers.get(i).getTeam()+", location : "+currentPlayers.get(i).getCurrentRoom());
 		}
 		
 		gameStart();
@@ -70,7 +70,7 @@ public class teamGameStart {
 
 	public void setUserPlace(int numUser) {
 		for(int i=0;i<currentPlayers.size();i++){
-			currentPlayers.get(i).setRoom(i*3);
+			currentPlayers.get(i).setCurrentRoom(i*3);
 		}
 	}
 	

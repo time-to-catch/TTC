@@ -27,12 +27,12 @@ public class Player extends PersonInfo {
 		outToClient = o;
 	}
 	
-	public int getRoom()
+	public int getCurrentRoom()
 	{
 		return this.currentRoom;
 	}
 	
-	public void setRoom(int num)
+	public void setCurrentRoom(int num)
 	{
 		this.currentRoom = num;
 	}

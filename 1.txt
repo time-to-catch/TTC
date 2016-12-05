@@ -1,0 +1,5 @@
+PROBLEM SMTP, POP3, and IMAP protocols run on the following layer:
+CHOICE 1) Link layer
+CHOICE 2) Transport layer
+CHOICE 3) Network layer
+CHOICE 4) None of them
