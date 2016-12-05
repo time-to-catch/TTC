@@ -26,7 +26,7 @@ public class singleGameStart {
 		currentPlayers = singlePlayers;
 		System.out.println("-Player List-");
 		for (int i = 0; i < singlePlayers.size(); i++) {
-			System.out.println("user name : " + currentPlayers.get(i).getName());
+			System.out.println("user" +i+": " + currentPlayers.get(i).getName());
 		}
 
 		divdeTeam();
