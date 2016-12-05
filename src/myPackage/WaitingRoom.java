@@ -8,9 +8,6 @@ public class WaitingRoom extends JFrame{
 	WaitingRoom(){
 		
 		JFrame frame = new JFrame("Waiting");
-		Toolkit toolkit = frame.getToolkit();
-		Image image = toolkit.createImage("frame.png");
-		frame.setIconImage(image);
 		frame.setLayout(null);
 		
 		JLabel text = new JLabel("Searching for another users.");
@@ -37,6 +34,9 @@ public class WaitingRoom extends JFrame{
 //			}
 //		});	
 		
+		frame.setLocation(540, 270);
+		frame.setSize(380, 200);
+		frame.setVisible(true);
 	}
 	
 	public static void closeWaiting(WaitingRoom w)
