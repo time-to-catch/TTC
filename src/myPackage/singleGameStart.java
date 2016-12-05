@@ -19,14 +19,13 @@ public class singleGameStart {
 	private ArrayList<Player> currentPlayers;
 	private static int roomSize;
 	public int currentRoom;
-	String answer = null;
 
 	public singleGameStart(ArrayList<Player> singlePlayers) throws IOException {
 		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
 		System.out.println("-Player List-");
 		for (int i = 0; i < singlePlayers.size(); i++) {
-			System.out.println("user name : " + currentPlayers.get(i).getName());
+			System.out.println("user " + i + " : " + currentPlayers.get(i).getName());
 		}
 
 		divdeTeam();
@@ -119,11 +118,7 @@ public class singleGameStart {
 			while (true) {
 				while (fileReader.hasNextLine()) {
 					problem = fileReader.nextLine();
-					if (!problem.startsWith("ANSWER")) {
-						outToClient.println(problem);
-					} else {
-						answer = problem.substring(7, problem.length());
-					}
+					outToClient.println(problem);
 				}
 				fileReader.close();
 			}

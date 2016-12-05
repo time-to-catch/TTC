@@ -11,71 +11,86 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class teamGameStart {
-	
+
 	private Socket socket;
 	private BufferedReader inFromClient;
 	private PrintWriter outToClient;
-	
+
 	private ArrayList<Player> currentPlayers;
 	private static int roomSize;
 	public int currentRoom;
-	String answer = null;
-	
+
 	public teamGameStart(ArrayList<Player> singlePlayers) throws IOException {
-		currentPlayers= singlePlayers;
+		// TODO Auto-generated constructor stub
+		currentPlayers = singlePlayers;
 		System.out.println("-Player List-");
-		for(int i=0;i<singlePlayers.size();i++){
-			System.out.println("user name : "+currentPlayers.get(i).getName());
+		for (int i = 0; i < singlePlayers.size(); i++) {
+			System.out.println("user " + i + " : " + currentPlayers.get(i).getName());
 		}
-		
+
 		divdeTeam();
+
 		setRoomSize(currentPlayers.size());
-		setUserPlace(currentPlayers.size());
-		
-		for(int i=0;i<currentPlayers.size();i++){
-			System.out.println(currentPlayers.get(i).getName()+", "
-					+currentPlayers.get(i).getTeam()+", location : "+currentPlayers.get(i).getCurrentRoom());
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			currentPlayers.get(i).setRoomSize(roomSize);
 		}
-		
+		System.out.println("Room size: " + getRoomSize());
+
+		setUserPlace(currentPlayers.size());
+
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			System.out.println(currentPlayers.get(i).getName() + ", " + currentPlayers.get(i).getTeam()
+					+ ", location : " + currentPlayers.get(i).getCurrentRoom());
+		}
+
 		gameStart();
-		
-	}
-	public void gameStart() throws IOException {
-	
-		problemSender();
-		answerCheck();
 
 	}
-	
-	public void divdeTeam(){
-		for(int i=0;i<currentPlayers.size();i++){
-			if(i%2==0){
+
+	public void gameStart() throws IOException {
+		problemSender();
+	}
+
+	public void divdeTeam() {
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			if (i % 2 == 0) {
 				currentPlayers.get(i).toClient("TEAM INFECTEE");
 				currentPlayers.get(i).setTeam(Team.INFECTEE);
-			}
-			else{
+			} else {
 				currentPlayers.get(i).toClient("TEAM NONINFECTEE");
 				currentPlayers.get(i).setTeam(Team.NONINFECTEE);
 			}
 		}
 	}
 
-	public int getRoomSize(){
+	public int getRoomSize() {
 		return roomSize;
 	}
-	
+
 	public void setRoomSize(int numUser) {
 		roomSize = numUser * 3;
 	}
 
 	public void setUserPlace(int numUser) {
-		for(int i=0;i<currentPlayers.size();i++){
-			currentPlayers.get(i).setCurrentRoom(i*3);
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			currentPlayers.get(i).setCurrentRoom(i * 3);
 		}
 	}
-	
-	public void goNextRoom() {
 
+	public void checkingRoomState(int c) {
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			if (c != i && currentPlayers.get(i).getCurrentRoom() == currentPlayers.get(c).getCurrentRoom() + 1) {
+				sendEnding(i);
+				currentPlayers.get(c).goToNextRoom();
+				currentPlayers.get(c).toClient("NOTICE YOU CATCH user " + currentPlayers.get(i).getName());
+				break;
+			}
+		}
+	}
+
+	public void sendEnding(int indexOfUser) {
+		currentPlayers.get(indexOfUser).setCurrentRoom(-1);
+		currentPlayers.get(indexOfUser).toClient("NOTICE You are catched by opposing team HAAHAHA");
 	}
 
 	public void problemSender() {
@@ -83,7 +98,7 @@ public class teamGameStart {
 			inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			outToClient = new PrintWriter(socket.getOutputStream(), true);
 
-			int fileNum = (int) (Math.random() + 1); // (int)(Math.random()*'problem
+			int fileNum = (int) (Math.random() + 8); // (int)(Math.random()*'problem
 														// number' + 1)
 			String fileName = fileNum + ".txt";
 			Scanner fileReader = null;
@@ -103,11 +118,7 @@ public class teamGameStart {
 			while (true) {
 				while (fileReader.hasNextLine()) {
 					problem = fileReader.nextLine();
-					if (!problem.startsWith("ANSWER")) {
-						outToClient.println(problem);
-					} else {
-						answer = problem.substring(7, problem.length());
-					}
+					outToClient.println(problem);
 				}
 				fileReader.close();
 			}
@@ -116,28 +127,21 @@ public class teamGameStart {
 		}
 	}
 
-	public void answerCheck() throws IOException {
-		try {
-			inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			outToClient = new PrintWriter(socket.getOutputStream(), true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void checking() throws IOException {
+		inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		String line;
+		String name;
+		int index;
+		line = inFromClient.readLine();
 
-		String ClientA;
-		String ServerA;
-		ClientA = inFromClient.readLine();
-		ServerA = answer;
-
-		if (ClientA.equalsIgnoreCase(ServerA)) {
-			outToClient.println("CORRECT! GO to next room!");
-			goNextRoom();
+		if (line.startsWith("CORRECT")) {
+			name = line.substring(8, line.length());
+			if (currentPlayers.contains(name)) {
+				index = currentPlayers.indexOf(name);
+				currentPlayers.get(index).goToNextRoom();
+			}
 		} else {
-			outToClient.println("INCORRECT! Go to next Problem.");
 			problemSender();
 		}
-
 	}
 }
-
