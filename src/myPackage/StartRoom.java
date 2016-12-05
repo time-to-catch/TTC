@@ -30,6 +30,7 @@ public class StartRoom extends JPanel {
    private void makeUI() {
       this.setLayout(null);
       this.setBounds(0, 0, 1052, 764);
+      
 
       // 버튼 생성
       JButton Teambtn = new JButton(new ImageIcon("teammatch.png"));
@@ -76,10 +77,13 @@ public class StartRoom extends JPanel {
        */
 
    }
+   
 }
 
 class MyActionListener implements ActionListener {
 
+	static WaitingRoom wait;
+	
    @Override
    public void actionPerformed(ActionEvent e) {
       // TODO Auto-generated method stub
@@ -87,7 +91,11 @@ class MyActionListener implements ActionListener {
 
       TTC_Client.sendMode(b.getText());
      
-      WaitingRoom wait = new WaitingRoom(b.getText());
+      wait = new WaitingRoom(b.getText());
    }
-
+   
+   public static void stop()
+   {
+	   TTC_Client.stopWait(wait);
+   }
 }

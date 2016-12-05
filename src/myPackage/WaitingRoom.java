@@ -12,6 +12,7 @@ public class WaitingRoom extends JFrame{
 		Image image = toolkit.createImage("frame.png");
 		frame.setIconImage(image);
 		frame.setLayout(null);
+		frame.setResizable(false);
 		
 		JLabel text = new JLabel("Searching for another users.");
 		text.setFont(new Font("±Ã¼­", 15, 15));
@@ -33,25 +34,12 @@ public class WaitingRoom extends JFrame{
 				frame.setVisible(false);
 				
 			}
-		});
-		
-		if(command.equals("Single Match")){
-			
-			
-		}
-		
-		
-		else{
-			
-			
-		}
-			
-			
-		
-		frame.setLocation(450, 250);
-		frame.setSize(380, 200);
-		frame.setVisible(true);
+		});	
 		
 	}
-
+	
+	public static void closeWaiting(WaitingRoom w)
+	{
+		w.setVisible(false);
+	}
 }
