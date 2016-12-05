@@ -49,9 +49,7 @@ public class singleGameStart {
 	}
 
 	public void gameStart() throws IOException {
-
 		problemSender();
-
 	}
 
 	public void divdeTeam() {
