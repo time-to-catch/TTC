@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 public class Player extends PersonInfo {
 	public int currentRoom;
 	public Team team;
+	private static int roomSize;
 	private PrintWriter outToClient;
 	
 	Player(Mode m)
@@ -49,5 +50,13 @@ public class Player extends PersonInfo {
 	public void toClient(String str)
 	{
 		outToClient.println(str);
+	}
+	
+	public void goToNextRoom(){
+		currentRoom = (currentRoom +1)%roomSize;
+	}
+	
+	public void setRoomSize(int size){
+		roomSize = size;
 	}
 }

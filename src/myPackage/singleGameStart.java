@@ -30,7 +30,13 @@ public class singleGameStart {
 		}
 		
 		divdeTeam();
+		
 		setRoomSize(currentPlayers.size());
+		for(int i=0;i<currentPlayers.size();i++){
+			currentPlayers.get(i).setRoomSize(roomSize);
+		}
+		System.out.println("Room size: "+ getRoomSize());
+		
 		setUserPlace(currentPlayers.size());
 		
 		for(int i=0;i<currentPlayers.size();i++){
@@ -86,7 +92,7 @@ public void problemSender() {
 		inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		outToClient = new PrintWriter(socket.getOutputStream(), true);
 
-		int fileNum = (int) (Math.random() + 1); // (int)(Math.random()*'problem
+		int fileNum = (int) (Math.random() + 8); // (int)(Math.random()*'problem
 													// number' + 1)
 		String fileName = fileNum + ".txt";
 		Scanner fileReader = null;
@@ -137,7 +143,7 @@ public void answerCheck() throws IOException {
 		outToClient.println("CORRECT! GO to next room!");
 		goNextRoom();
 	} else {
-		outToClient.println("INCORRECT! Go to next Problem.");
+		outToClient.println("INCORRECT! Next Problem.");
 		problemSender();
 	}
 

@@ -1,0 +1,6 @@
+PROBLEM Which of these routing protocols is a path vector type?
+CHOICE 1) BGP
+CHOICE 2) OSPF
+CHOICE 3) EIGRP
+CHOICE 4) IGRP
+ANSWER 1

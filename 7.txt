@@ -1,0 +1,5 @@
+PROBLEM Hubs are now obsolete and have been replaced by what?
+CHOICE 1) Routers
+CHOICE 2) Switches
+CHOICE 3) Firewalls
+ANSWER 2

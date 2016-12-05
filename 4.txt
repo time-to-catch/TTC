@@ -1,0 +1,6 @@
+PROBLEM Which of these protocols can be found in the TCP/IP model network layer?
+CHOICE 1) HTTP
+CHOICE 2) ICMP
+CHOICE 3) FTP
+CHOICE 4) TCP
+ANSWER 2

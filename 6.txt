@@ -1,0 +1,5 @@
+PROBLEM What is the Standard Internet Protocol Suite?
+CHOICE 1) OSI
+CHOICE 2) TCP/IP
+CHOICE 3) UDP
+ANSWER 2

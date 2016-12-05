@@ -1,0 +1,6 @@
+PROBLEM Which of these routing protocols is the oldest?
+CHOICE 1) OSPF
+CHOICE 2) IGRP
+CHOICE 3) RIP
+CHOICE 4) BGP
+ANSWER 3

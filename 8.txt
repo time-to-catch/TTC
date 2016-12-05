@@ -1,0 +1,6 @@
+PROBLEM What are some simple ways to protect your computer from viruses and malware?
+CHOICE 1) Software Updates
+CHOICE 2) Site advisors
+CHOICE 3) Proper use of permissions
+CHOICE 4) All of the above
+ANSWER 4
