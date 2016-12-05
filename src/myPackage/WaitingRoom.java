@@ -5,15 +5,13 @@ import javax.swing.*;
 
 public class WaitingRoom extends JFrame{
 	
-	WaitingRoom(String command){
+	WaitingRoom(){
 		
 		JFrame frame = new JFrame("Waiting");
 		Toolkit toolkit = frame.getToolkit();
 		Image image = toolkit.createImage("frame.png");
 		frame.setIconImage(image);
 		frame.setLayout(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
 		
 		JLabel text = new JLabel("Searching for another users.");
 		text.setFont(new Font("±Ã¼­", 15, 15));
@@ -24,18 +22,20 @@ public class WaitingRoom extends JFrame{
 		textTwo.setFont(new Font("±Ã¼­", 15, 15));
 		textTwo.setBounds(140, 60, 500, 15);
 		frame.add(textTwo);
+		frame.setResizable(false);
+		frame.setVisible(true);
 		
 		JButton cancel = new JButton("Cancel");
 		cancel.setBounds(110, 100, 150, 25);
-		frame.add(cancel);
-		cancel.addActionListener(new ActionListener(){
-			
-			public void actionPerformed(ActionEvent e){
-				
-				frame.setVisible(false);
-				
-			}
-		});	
+//		frame.add(cancel);
+//		cancel.addActionListener(new ActionListener(){
+//			
+//			public void actionPerformed(ActionEvent e){
+//				
+//				frame.setVisible(false);
+//				
+//			}
+//		});	
 		
 	}
 	
