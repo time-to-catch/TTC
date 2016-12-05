@@ -54,7 +54,7 @@ public class TTC_Client {
 	private void run() throws IOException {
 
 		// Make connection and initialize streams
-		String serverAddress = "172.16.33.89";// Set server IP address
+		String serverAddress = "192.168.0.22";// Set server IP address
 		Socket socket = new Socket(serverAddress, 9001);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
