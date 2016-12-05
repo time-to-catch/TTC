@@ -18,6 +18,7 @@ public class TTC_Client {
 
 	BufferedReader in;
 	static PrintWriter out;
+	int pNum;
 	JFrame frame = new JFrame("Time To Catch!");
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
@@ -79,8 +80,13 @@ public class TTC_Client {
 		System.out.println(line);
 		if (line.startsWith("GAMESTART"))
 			gameStart();
-
+		
+		//문제 맞으면 correct name으로 서버에 보내주기!
+		//틀리면 incorrect name으로 보내주기!
+		
 		// game ends!
+		//WindowHandler.windowClosing(null);
+		//windowHandler.windowClosing은 어떻게 쓰는거징...?
 		socket.close();
 	}
 
@@ -98,14 +104,17 @@ public class TTC_Client {
 			line = line.substring(5, line.length());
 			
 			if(line.equalsIgnoreCase("infectee"))
-			{
 				new GameRoomUI("TTC_Gui_infectee.png");
-			}
 			else
-			{
 				new GameRoomUI("TTC_Gui_Noninfectee.png");
-			}
 		}
+		
+		
+	}
+	
+	public void answerCheck() throws IOException {
+		
+		
 	}
 
 	public static void main(String[] args) throws Exception {

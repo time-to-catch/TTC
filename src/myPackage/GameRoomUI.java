@@ -99,36 +99,7 @@ public class GameRoomUI extends JPanel{
 	      emergency.setBorderPainted(false);
 	      emergency.setFocusPainted(false);
 	      this.add(emergency);
-	      
-	      getAnswer.addKeyListener(new KeyListener(){
 
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				
-				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
-					status.setText("You entered, and the answer sends to server.");
-					getAnswer.setText("");
-				}
-				
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-	    	  	    	  
-	      });
-	      
-	      
-
-	      
 	   }
 	  
 	   public void buttonSet(JButton b){
