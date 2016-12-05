@@ -21,7 +21,6 @@ public class teamGameStart {
 	public int currentRoom;
 
 	public teamGameStart(ArrayList<Player> singlePlayers) throws IOException {
-		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
 		System.out.println("-Player List-");
 		for (int i = 0; i < singlePlayers.size(); i++) {
@@ -79,7 +78,8 @@ public class teamGameStart {
 
 	public void checkingRoomState(int c) {
 		for (int i = 0; i < currentPlayers.size(); i++) {
-			if (c != i && currentPlayers.get(i).getCurrentRoom() == currentPlayers.get(c).getCurrentRoom() + 1) {
+			if (c != i && currentPlayers.get(i).getCurrentRoom() == currentPlayers.get(c).getCurrentRoom() + 1
+					&&currentPlayers.get(i).getTeam()!=currentPlayers.get(c).getTeam()) {
 				sendEnding(i);
 				currentPlayers.get(c).goToNextRoom();
 				currentPlayers.get(c).toClient("NOTICE YOU CATCH user " + currentPlayers.get(i).getName());

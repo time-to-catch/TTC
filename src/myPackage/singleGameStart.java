@@ -21,7 +21,6 @@ public class singleGameStart {
 	public int currentRoom;
 
 	public singleGameStart(ArrayList<Player> singlePlayers) throws IOException {
-		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
 		System.out.println("-Player List-");
 		for (int i = 0; i < singlePlayers.size(); i++) {
