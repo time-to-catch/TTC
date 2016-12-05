@@ -22,12 +22,11 @@ public class TTC_Client {
 	JFrame frame = new JFrame("Time To Catch!");
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
-	JFrame getFrame;
 
 	public TTC_Client() {
 
 		// Layout GUI - 이거 GUI 다 되면 고쳐야 함!
-		getFrame = new JFrame("Time To Catch");
+		JFrame getFrame = new JFrame("Time To Catch");
 		getFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame.setLayout(null);
 		getFrame.setBounds(200, 0, 1052, 764);

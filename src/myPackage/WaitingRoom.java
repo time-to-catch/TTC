@@ -13,6 +13,7 @@ public class WaitingRoom extends JFrame{
 		frame.setIconImage(image);
 		frame.setLayout(null);
 		frame.setResizable(false);
+		frame.setVisible(true);
 		
 		JLabel text = new JLabel("Searching for another users.");
 		text.setFont(new Font("±Ã¼­", 15, 15));
