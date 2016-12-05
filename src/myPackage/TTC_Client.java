@@ -22,6 +22,7 @@ public class TTC_Client {
 	JFrame frame = new JFrame("Time To Catch!");
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
+	static WaitingRoom wait;
 
 	public TTC_Client() {
 
@@ -80,7 +81,7 @@ public class TTC_Client {
 		System.out.println(line);
 		if (line.startsWith("GAMESTART"))
 		{
-			MyActionListener.stop();
+			WaitingRoom.stopWait(wait);
 			gameStart();
 		}
 
@@ -99,12 +100,14 @@ public class TTC_Client {
 
 	public static void sendMode(String m) {
 		out.println("MODE " + m);
+		
+		wait = new WaitingRoom();
 	}
 	
-	public static void stopWait(WaitingRoom w)
-	{
-		WaitingRoom.closeWaiting(w);
-	}
+//	public static void stopWait(WaitingRoom w)
+//	{
+//		WaitingRoom.closeWaiting(w);
+//	}
 
 	private void gameStart() throws IOException {
 		String line = in.readLine();
@@ -137,3 +140,4 @@ public class TTC_Client {
 		client.run();
 	}
 }
+

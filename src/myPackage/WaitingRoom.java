@@ -41,7 +41,7 @@ public class WaitingRoom extends JFrame{
 		frame.setVisible(true);
 	}
 	
-	public static void closeWaiting(WaitingRoom w)
+	public static void stopWait(WaitingRoom w)
 	{
 		w.setVisible(false);
 	}

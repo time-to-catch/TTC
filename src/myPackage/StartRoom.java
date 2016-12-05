@@ -82,7 +82,7 @@ public class StartRoom extends JPanel {
 
 class MyActionListener implements ActionListener {
 
-	static WaitingRoom wait;
+//	static WaitingRoom wait;
 	
    @Override
    public void actionPerformed(ActionEvent e) {
@@ -91,11 +91,11 @@ class MyActionListener implements ActionListener {
 
       TTC_Client.sendMode(b.getText());
      
-      wait = new WaitingRoom();
+//      wait = new WaitingRoom();
    }
    
-   public static void stop()
-   {
-	   TTC_Client.stopWait(wait);
-   }
+//   public static void stop()
+//   {
+//	   TTC_Client.stopWait(wait);
+//   }
 }
