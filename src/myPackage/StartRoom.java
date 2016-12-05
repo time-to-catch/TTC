@@ -91,7 +91,7 @@ class MyActionListener implements ActionListener {
 
       TTC_Client.sendMode(b.getText());
      
-      wait = new WaitingRoom(b.getText());
+      wait = new WaitingRoom();
    }
    
    public static void stop()

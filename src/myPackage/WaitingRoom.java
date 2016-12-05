@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class WaitingRoom extends JFrame{
 	
-	WaitingRoom(String command){
+	WaitingRoom(){
 		
 		JFrame frame = new JFrame("Waiting");
 		Toolkit toolkit = frame.getToolkit();
@@ -31,6 +31,7 @@ public class WaitingRoom extends JFrame{
 		cancel.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e){
+				
 				
 				frame.setVisible(false);
 				
