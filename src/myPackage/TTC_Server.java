@@ -70,7 +70,7 @@ public class TTC_Server {
 
 				String mode;
 				Player temp = new Player();
-				
+
 				mode = inFromClient.readLine();
 				if (mode.startsWith("MODE")) {
 
@@ -94,16 +94,16 @@ public class TTC_Server {
 				System.out.println("");
 
 				// change to GAMEMODE
-				if (singlePlayers.size() == 2){
+				if (singlePlayers.size() == 2) {
 					System.out.println("Single Match start");
-					outToClient.println("SINGLEGAMESTART");
+					outToClient.println("GAMESTART");
 					new singleGameStart(singlePlayers);
-					}
-				else if (teamPlayers.size() == 4){
+				} else if (teamPlayers.size() == 4) {
 					System.out.println("Team Match start");
-					outToClient.println("TEAMGAMESTART");
+					outToClient.println("GAMESTART");
 					new teamGameStart(teamPlayers);
 				}
+
 			} catch (IOException e) {
 				System.out.println(e);
 			}

@@ -35,15 +35,10 @@ public class WaitingRoom extends JFrame{
 //				
 //			}
 //		});	
-
 		
 		frame.setLocation(540, 270);
 		frame.setSize(380, 200);
 		frame.setVisible(true);
 	}
 	
-	public static void stopWait(WaitingRoom w)
-	{
-		w.setVisible(false);
-	}
 }

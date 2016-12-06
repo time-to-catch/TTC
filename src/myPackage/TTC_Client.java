@@ -1,7 +1,5 @@
 package myPackage;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,29 +8,30 @@ import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class TTC_Client {
 
-	BufferedReader in;
+	static BufferedReader in;
 	static PrintWriter out;
 	int pNum;
 	JFrame frame = new JFrame("Time To Catch!");
+	static JFrame mainFrame = new JFrame("Time To Catch");
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
-	static WaitingRoom wait;
+	static StartRoom panel;
 
 	public TTC_Client() {
 
 		// Layout GUI - 이거 GUI 다 되면 고쳐야 함!
-		JFrame getFrame = new JFrame("Time To Catch");
-		getFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrame.setLayout(null);
-		getFrame.setBounds(200, 0, 1052, 764);
-		getFrame.add(new StartRoom());
-		getFrame.setVisible(true);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setLayout(null);
+		mainFrame.setBounds(200, 0, 1052, 764);
+		panel = new StartRoom();
+		mainFrame.add(panel);
+		mainFrame.setResizable(false);
+		mainFrame.setVisible(true);
 
 		// Add Listeners
 		// textField.addActionListener(new ActionListener() {
@@ -54,18 +53,19 @@ public class TTC_Client {
 	private void run() throws IOException {
 
 		// Make connection and initialize streams
-		String serverAddress = "192.168.0.22";// Set server IP address
+		String serverAddress = "127.0.0.1";// Set server IP address
 		Socket socket = new Socket(serverAddress, 9001);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
 		String line;
-		
 		int c = 1;
+
 		while (true) {
-			
+
 			line = in.readLine();
 			System.out.println(line);
-			if (line.startsWith("SUBMITNAME") && c == 1) {
+			if (line.startsWith("SUBMITNAME") && c == 1) { // filter duplicate
+															// name
 				out.println(getName());
 			} else if (line.startsWith("NAMEACCEPTED")) {
 				textField.setEditable(true);
@@ -73,63 +73,50 @@ public class TTC_Client {
 			} else
 				out.println(getName("Enter another name:"));
 			c++;
-			frame.setVisible(false);
-		} // set user's name!
 
-		// game Start!
-		line = in.readLine();
-		System.out.println(line);
-		if (line.startsWith("GAMESTART"))
-		{
-			WaitingRoom.stopWait(wait);
-			gameStart();
 		}
+
 
 		// 문제 맞으면 correct name으로 서버에 보내주기!
 		// 틀리면 incorrect name으로 보내주기!
 
-		
-		//문제 맞으면 correct name으로 서버에 보내주기!
-		//틀리면 incorrect name으로 보내주기!
-		
-		// game ends!
-		//WindowHandler.windowClosing(null);
-		//windowHandler.windowClosing은 어떻게 쓰는거징...?
-		socket.close();
-	}
+		// 문제 맞으면 correct name으로 서버에 보내주기!
+		// 틀리면 incorrect name으로 보내주기!
 
-	public static void sendMode(String m) {
-		out.println("MODE " + m);
-		
-		wait = new WaitingRoom();
+		// game ends!
+		// WindowHandler.windowClosing(null);
+		// windowHandler.windowClosing은 어떻게 쓰는거징...?
+		// socket.close();
+		frame.setVisible(false);
+	} // set user's name!
+
+	public static BufferedReader getIn(){
+		return in;
 	}
 	
-//	public static void stopWait(WaitingRoom w)
-//	{
-//		WaitingRoom.closeWaiting(w);
-//	}
+	public static void sendMode(String m) {
+		out.println("MODE " + m);
+	}
 
-	private void gameStart() throws IOException {
+	public static void gameStart() throws IOException {
+		StartRoom roomUI = new StartRoom();
 		String line = in.readLine();
 		System.out.println(line);
 		line = in.readLine();
 		System.out.println(line);
-		if(line.startsWith("TEAM"))
-		{
+		if (line.startsWith("TEAM")) {
 			line = line.substring(5, line.length());
-			
-			if(line.equalsIgnoreCase("infectee"))
+
+			if (line.equalsIgnoreCase("infectee"))
 				new GameRoomUI("TTC_Gui_infectee.png");
 			else
 				new GameRoomUI("TTC_Gui_Noninfectee.png");
 		}
-		
-		
+
 	}
-	
+
 	public void answerCheck() throws IOException {
-		
-		
+
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -139,5 +126,5 @@ public class TTC_Client {
 		client.frame.setResizable(false);
 		client.run();
 	}
-}
 
+}

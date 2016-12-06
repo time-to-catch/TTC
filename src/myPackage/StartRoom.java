@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.ImageIcon;
@@ -19,83 +20,98 @@ import javax.swing.border.EmptyBorder;
 
 public class StartRoom extends JPanel {
 
-   public StartRoom() {
+	ModeSelect action = new ModeSelect();
+	WaitingRoom wait;
 
-      makeUI();
-      // setLocation(500,200);
-      setSize(1052, 764);
+	public StartRoom() {
 
-   }
-   
-   private void makeUI() {
-      this.setLayout(null);
-      this.setBounds(0, 0, 1052, 764);
-      
+		makeUI();
+		// setLocation(500,200);
+		setSize(1052, 764);
 
-      // 버튼 생성
-      JButton Teambtn = new JButton(new ImageIcon("teammatch.png"));
-      JButton Singlebtn = new JButton(new ImageIcon("singlematch.png"));
-      Teambtn.setText("TEAM");
-      Singlebtn.setText("SINGLE");
+	}
 
-      Teambtn.setBorder(new EmptyBorder(10, 10, 10, 10)); // 테두리 투명화
-      Singlebtn.setBorder(new EmptyBorder(10, 10, 10, 10));
-      Teambtn.setBackground(new Color(9, 21, 52));
-      Singlebtn.setBackground(new Color(9, 21, 52));
-      this.add(Singlebtn);
-      this.add(Teambtn);
-      Singlebtn.setBounds(690, 350, 310, 40);
-      Teambtn.setBounds(718, 410, 280, 40);
-      
-      Singlebtn.setBorderPainted(false);
-      Singlebtn.setFocusPainted(false);
-      Singlebtn.setContentAreaFilled(true);
-      Singlebtn.setOpaque(false);
-      Teambtn.setBorderPainted(false);
-      Teambtn.setFocusPainted(false);
-      Teambtn.setContentAreaFilled(true);
-      Teambtn.setOpaque(false);
-      
-      MyActionListener listenerT = new MyActionListener();
-      Teambtn.addActionListener(listenerT);
-      Singlebtn.addActionListener(listenerT);
-      
-   }
+	private void makeUI() {
+		this.setLayout(null);
+		this.setBounds(0, 0, 1052, 764);
 
-   public void paintComponent(Graphics g) {// Graphics객체는 그릴수 있는 도구.
-                           // 이미지처리. 배경
-	   
-	  super.paintComponent(g);
-      Image backImg = new ImageIcon("Login3.png").getImage();
-      g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
-      /*
-       * //이미지처리. 스프라이트 Image img =
-       * Toolkit.getDefaultToolkit().getImage("background.jpg");
-       * g.drawImage(img, 30, 150, this);
-       * 
-       * //문자열 처리 g.drawString("paint() in SWING", 20, getHeight()-20);
-       */
+		// 버튼 생성
+		JButton Teambtn = new JButton(new ImageIcon("teammatch.png"));
+		JButton Singlebtn = new JButton(new ImageIcon("singlematch.png"));
+		Teambtn.setText("TEAM");
+		Singlebtn.setText("SINGLE");
 
-   }
-   
-}
+		Teambtn.setBorder(new EmptyBorder(10, 10, 10, 10)); // 테두리 투명화
+		Singlebtn.setBorder(new EmptyBorder(10, 10, 10, 10));
+		Teambtn.setBackground(new Color(9, 21, 52));
+		Singlebtn.setBackground(new Color(9, 21, 52));
+		this.add(Singlebtn);
+		this.add(Teambtn);
+		Singlebtn.setBounds(690, 350, 310, 40);
+		Teambtn.setBounds(718, 410, 280, 40);
 
-class MyActionListener implements ActionListener {
+		Singlebtn.setBorderPainted(false);
+		Singlebtn.setFocusPainted(false);
+		Singlebtn.setContentAreaFilled(true);
+		Singlebtn.setOpaque(false);
+		Teambtn.setBorderPainted(false);
+		Teambtn.setFocusPainted(false);
+		Teambtn.setContentAreaFilled(true);
+		Teambtn.setOpaque(false);
+		addAction(Teambtn, action);
+		addAction(Singlebtn, action);
+	}
 
-//	static WaitingRoom wait;
-	
-   @Override
-   public void actionPerformed(ActionEvent e) {
-      // TODO Auto-generated method stub
-      JButton b = (JButton) e.getSource();
+	public void paintComponent(Graphics g) { // Graphics객체를 그릴수 있는 도구.
 
-      TTC_Client.sendMode(b.getText());
-     
-//      wait = new WaitingRoom();
-   }
-   
-//   public static void stop()
-//   {
-//	   TTC_Client.stopWait(wait);
-//   }
+		super.paintComponent(g);
+		Image backImg = new ImageIcon("Login3.png").getImage();
+		g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
+
+	}
+
+	class ModeSelect implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton b = (JButton) e.getSource();
+			System.out.println("Select button " + b.getText());
+			TTC_Client.sendMode(b.getText());
+			wait = new WaitingRoom();
+			
+			String line;
+			try {
+				while (true) {
+					line = TTC_Client.getIn().readLine();
+					System.out.println(line);
+					// game Start!
+
+					if (line.startsWith("GAMESTART")) {
+						TTC_Client.panel.stopWaiting();
+						TTC_Client.mainFrame.setVisible(false);
+						
+						try {
+							TTC_Client.gameStart();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+
+		}
+	}
+
+	public void stopWaiting() {
+		wait.setVisible(false);
+		wait.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public void addAction(JButton A, ModeSelect T) {
+		A.addActionListener(T);
+	}
+
 }
