@@ -31,7 +31,7 @@ public class singleGameStart {
 		}
 
 		divideTeam();
-		
+
 		setRoomSize(currentPlayers.size());
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			currentPlayers.get(i).setRoomSize(roomSize);
@@ -75,7 +75,7 @@ public class singleGameStart {
 
 	public void setUserPlace(int numUser) {
 		for (int i = 0; i < currentPlayers.size(); i++) {
-			currentPlayers.get(i).setCurrentRoom((i * 3)%roomSize);
+			currentPlayers.get(i).setCurrentRoom((i * 3) % roomSize);
 		}
 	}
 
@@ -115,14 +115,16 @@ public class singleGameStart {
 			}
 
 			// transfer problem
-			String line = null;
+			String line;
 			outToClient = new PrintWriter(socket.getOutputStream(), true);
-			while (true) {
-				while (fileReader.hasNextLine()) {
-						outToClient.println(line);
-				}
-				fileReader.close();
+			while (fileReader.hasNextLine()) {
+				line = fileReader.nextLine();
+				System.out.println(line);
+				for(int i=0;i<currentPlayers.size();i++)
+				currentPlayers.get(i).toClient(line);
 			}
+			fileReader.close();
+
 		} catch (IOException e) {
 			System.out.println(e);
 		}

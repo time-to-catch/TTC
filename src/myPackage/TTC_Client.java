@@ -82,6 +82,7 @@ public class TTC_Client {
 		gameFrame.setSize(1024, 768);
 		gameFrame.setResizable(false);
 		gameFrame.setVisible(true);
+		
 		String line = in.readLine();
 		System.out.println(line);
 		if (line.startsWith("TEAM")) {
@@ -91,12 +92,21 @@ public class TTC_Client {
 			else
 				con.add(new GameRoomPanel("TTC_Gui_Noninfectee.png"));
 		}
-		//gameFrame.setVisible(true);
-
+		receiveProblem();
+}
+	
+	public static void receiveProblem(){
+		/* Problem receiver */
+		String line;	
+		while(true){
+		try {
+			line = in.readLine();
+			System.out.println(line);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-//		/* Problem receiver */
-//		String answer;	
-//		line = in.readLine();
 //		if (line.startsWith("PROBLEM")) {
 //			line = line.substring(8,line.length());
 //			System.out.println("line");
@@ -105,8 +115,9 @@ public class TTC_Client {
 //		} else if (line.startsWith("ANSWER")) {
 //			answer = line.substring(7, line.length());
 //		} 
+		}
 		
-}
+	}
 
 	public void answerCheck() throws IOException {
 
