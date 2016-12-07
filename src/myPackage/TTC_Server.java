@@ -37,7 +37,6 @@ public class TTC_Server {
 		private BufferedReader inFromClient;
 		private PrintWriter outToClient;
 
-		String[] room;
 
 		public Handler(Socket socket) {
 			this.socket = socket;
@@ -94,10 +93,10 @@ public class TTC_Server {
 				System.out.println("");
 
 				// change to GAMEMODE
-				if (singlePlayers.size()%2 == 0) {
+				if (singlePlayers.size()!=0&&singlePlayers.size()%2 == 0) {
 					System.out.println("Single Match start");
 					new singleGameStart(singlePlayers);
-				} else if (teamPlayers.size()%4 == 0) {
+				} else if (teamPlayers.size()!=0&&teamPlayers.size()%4 == 0) {
 					System.out.println("Team Match start");
 					new teamGameStart(teamPlayers);
 				}

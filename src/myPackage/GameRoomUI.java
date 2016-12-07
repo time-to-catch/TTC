@@ -24,9 +24,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class GameRoomUI extends JPanel{
+
 	String imageFile;
-	
-	
 	public GameRoomUI(String file) {
 		
 	      setName("Time To Catch");

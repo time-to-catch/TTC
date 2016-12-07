@@ -1,5 +1,6 @@
 package myPackage;
 
+import java.awt.Container;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,8 +26,8 @@ public class TTC_Client {
 		mainFrame = new JFrame("Time To Catch");
 		mainFrame.setTitle("Time to Catch!");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.add(new StartPanel());
 		mainFrame.setResizable(false);
-		mainFrame.add(new StartRoom());
 		mainFrame.setSize(1052, 764);
 		mainFrame.setVisible(true);
 	}
@@ -50,21 +51,23 @@ public class TTC_Client {
 		int c = 1;
 
 		while (true) {
-
+			
 			line = in.readLine();
 			System.out.println(line);
 			if (line.startsWith("SUBMITNAME") && c == 1) {
 				out.println(getName());
 			} else if (line.startsWith("NAMEACCEPTED")) {
-				textField.setEditable(true);
+			
+			
 				break;
 			} else
 				out.println(getName("Enter another name:"));
 			c++;
 
 		}
+	
 	}
-
+	
 	public static BufferedReader getIn() {
 		return in;
 	}

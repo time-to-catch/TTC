@@ -1,6 +1,7 @@
 package myPackage;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -9,15 +10,17 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class StartRoom extends JPanel {
+public class StartPanel extends JPanel {
 
 	ModeSelect action = new ModeSelect();
-	WaitingRoom wait;
-
-	public StartRoom() {
+	//WaitingRoom wait;
+	JFrame waitFrame;
+	
+	public StartPanel() {
 		makeUI();
 		setVisible(true);
 	}
@@ -67,7 +70,12 @@ public class StartRoom extends JPanel {
 			System.out.println("Select button " + b.getText());
 			TTC_Client.sendMode(b.getText());
 
-			wait = new WaitingRoom();
+			waitFrame = new JFrame();
+			Container con = waitFrame.getContentPane();
+			con.add(new WaitingPanel());
+			waitFrame.setUndecorated(false);
+			waitFrame.setVisible(true);
+			waitFrame.setSize(380,200);
 
 			String line;
 			try {
@@ -76,8 +84,8 @@ public class StartRoom extends JPanel {
 				// game Start!
 
 				if (line.startsWith("GAMESTART")) {
-					wait.setVisible(false);
 					try {
+						waitFrame.setVisible(false);
 						TTC_Client.gameStart();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
@@ -92,10 +100,10 @@ public class StartRoom extends JPanel {
 		}
 	}
 
-	public void stopWaiting() {
+	/*public void stopWaiting() {
 		wait.setVisible(false);
 		// wait.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+	}*/
 
 	public void addAction(JButton A, ModeSelect T) {
 		A.addActionListener(T);
