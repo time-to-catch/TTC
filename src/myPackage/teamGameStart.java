@@ -11,133 +11,108 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class teamGameStart {
-	
-	private Socket socket;
-	private BufferedReader inFromClient;
-	private PrintWriter outToClient;
-	
+
 	private ArrayList<Player> currentPlayers;
 	private static int roomSize;
-	public int currentRoom;
-	String answer = null;
-	
-	public teamGameStart(ArrayList<Player> singlePlayers) throws IOException {
-		currentPlayers= singlePlayers;
-		System.out.println("-Player List-");
-		for(int i=0;i<singlePlayers.size();i++){
-			System.out.println("user" +i+": " + currentPlayers.get(i).getName());
-				}
-		
-		divdeTeam();
-		setRoomSize(currentPlayers.size());
-		setUserPlace(currentPlayers.size());
-		
-		for(int i=0;i<currentPlayers.size();i++){
-			System.out.println(currentPlayers.get(i).getName()+", "
-					+currentPlayers.get(i).getTeam()+", location : "+currentPlayers.get(i).getCurrentRoom());
-		}
-		
-		gameStart();
-		
-	}
-	public void gameStart() throws IOException {
-	
-		problemSender();
-		answerCheck();
+	String answer;
 
-	}
-	
-	public void divdeTeam(){
-		for(int i=0;i<currentPlayers.size();i++){
-			if(i%2==0){
+	public teamGameStart(ArrayList<Player> singlePlayers, Socket soc) throws IOException {
+		// TODO Auto-generated constructor stub
+		currentPlayers = singlePlayers;
+		System.out.println("-Player List-");
+		for (int i = 0; i < singlePlayers.size(); i++) {
+			System.out.println("user" + i + ": " + currentPlayers.get(i).getName());
+			currentPlayers.get(i).toClient("GAMESTART");
+		}
+		divideTeam();
+		setRoomSize(currentPlayers.size());
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			currentPlayers.get(i).setRoomSize(roomSize);
+		}
+		System.out.println("Room size: " + getRoomSize());
+		setUserPlace(currentPlayers.size());
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			System.out.println(currentPlayers.get(i).getName() + ", " + currentPlayers.get(i).getTeam()
+					+ ", location : " + currentPlayers.get(i).getCurrentRoom());
+		}
+		for (int i = 0; i < currentPlayers.size(); i++)
+			this.problemSender(i);
+	} // constructor
+
+	public void divideTeam() {
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			if (i % 2 == 0) {
 				currentPlayers.get(i).toClient("TEAM INFECTEE");
 				currentPlayers.get(i).setTeam(Team.INFECTEE);
-			}
-			else{
+			} else {
 				currentPlayers.get(i).toClient("TEAM NONINFECTEE");
 				currentPlayers.get(i).setTeam(Team.NONINFECTEE);
 			}
 		}
 	}
 
-	public int getRoomSize(){
+	public int getRoomSize() {
 		return roomSize;
 	}
-	
+
 	public void setRoomSize(int numUser) {
 		roomSize = numUser * 3;
 	}
 
 	public void setUserPlace(int numUser) {
-		for(int i=0;i<currentPlayers.size();i++){
-			currentPlayers.get(i).setCurrentRoom(i*3);
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			currentPlayers.get(i).setCurrentRoom((i * 3) % roomSize);
 		}
 	}
-	
-	public void goNextRoom() {
 
-	}
-
-	public void problemSender() {
-		try {
-			inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			outToClient = new PrintWriter(socket.getOutputStream(), true);
-
-			int fileNum = (int) (Math.random() + 1); // (int)(Math.random()*'problem
-														// number' + 1)
-			String fileName = fileNum + ".txt";
-			Scanner fileReader = null;
-
-			// file open
-			try {
-				fileReader = new Scanner(new File(fileName));
-				System.out.println("Opening file " + fileName);
-			} catch (FileNotFoundException e) {
-				System.out.println("Error opening file " + fileName);
-				System.exit(0);
-			}
-
-			// transfer problem
-			String problem = null;
-			outToClient = new PrintWriter(socket.getOutputStream(), true);
-			while (true) {
-				while (fileReader.hasNextLine()) {
-					problem = fileReader.nextLine();
-					if (!problem.startsWith("ANSWER")) {
-						outToClient.println(problem);
-					} else {
-						answer = problem.substring(7, problem.length());
-					}
+	public void checkingRoomState(int currentID) {
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			{
+				if (currentID != i && currentPlayers.get(i)
+						.getCurrentRoom() == currentPlayers.get(currentID).getCurrentRoom() + 1) {
+					sendEnding(i);
+					currentPlayers.get(currentID).goToNextRoom();
+					currentPlayers.get(currentID).toClient("NOTICE YOU CATCH user " + currentPlayers.get(i).getName());
+					break;
+				} else {
+					currentPlayers.get(currentID).goToNextRoom();
 				}
-				fileReader.close();
 			}
-		} catch (IOException e) {
-			System.out.println(e);
+
 		}
 	}
 
-	public void answerCheck() throws IOException {
+	public void sendEnding(int indexOfUser) {
+		currentPlayers.get(indexOfUser).setCurrentRoom(-1);
+		currentPlayers.get(indexOfUser).toClient("NOTICE You are catched by opposing team HAAHAHA");
+	}
+
+	public void problemSender(int personIndex) {
+
+		int fileNum = (int) (Math.random() + 8); // (int)(Math.random()*'problem
+													// number' + 1)
+		String fileName = fileNum + ".txt";
+		Scanner fileReader = null;
+
+		// file open
 		try {
-			inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			outToClient = new PrintWriter(socket.getOutputStream(), true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fileReader = new Scanner(new File(fileName));
+			System.out.println("Opening file " + fileName);
+		} catch (FileNotFoundException e) {
+			System.out.println("Error opening file " + fileName);
+			System.exit(0);
 		}
 
-		String ClientA;
-		String ServerA;
-		ClientA = inFromClient.readLine();
-		ServerA = answer;
-
-		if (ClientA.equalsIgnoreCase(ServerA)) {
-			outToClient.println("CORRECT! GO to next room!");
-			goNextRoom();
-		} else {
-			outToClient.println("INCORRECT! Go to next Problem.");
-			problemSender();
+		// transfer problem
+		String line;
+		while (fileReader.hasNextLine()) {
+			line = fileReader.nextLine();
+			System.out.println(line);
+			currentPlayers.get(personIndex).toClient(line);
 		}
+	}
 
+	public void pass(int personIndex) {
+		checkingRoomState(personIndex);
 	}
 }
-
