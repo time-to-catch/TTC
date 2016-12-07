@@ -17,29 +17,12 @@ public class TTC_Client {
 	static PrintWriter out;
 	int pNum;
 	JFrame frame = new JFrame("Time To Catch!");
-	static JFrame mainFrame = new JFrame("Time To Catch");
+	static StartRoom mainFrame = new StartRoom("Time To Catch");
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
-	static StartRoom panel;
 
 	public TTC_Client() {
 
-		// Layout GUI - 이거 GUI 다 되면 고쳐야 함!
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setLayout(null);
-		mainFrame.setBounds(200, 0, 1052, 764);
-		panel = new StartRoom();
-		mainFrame.add(panel);
-		mainFrame.setResizable(false);
-		mainFrame.setVisible(true);
-
-		// Add Listeners
-		// textField.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// out.println(textField.getText());
-		// textField.setText("");
-		// }
-		// });
 	}
 
 	private String getName() {
@@ -75,20 +58,7 @@ public class TTC_Client {
 			c++;
 
 		}
-
-
-		// 문제 맞으면 correct name으로 서버에 보내주기!
-		// 틀리면 incorrect name으로 보내주기!
-
-		// 문제 맞으면 correct name으로 서버에 보내주기!
-		// 틀리면 incorrect name으로 보내주기!
-
-		// game ends!
-		// WindowHandler.windowClosing(null);
-		// windowHandler.windowClosing은 어떻게 쓰는거징...?
-		// socket.close();
-		frame.setVisible(false);
-	} // set user's name!
+	}
 
 	public static BufferedReader getIn(){
 		return in;
@@ -99,6 +69,7 @@ public class TTC_Client {
 	}
 
 	public static void gameStart() throws IOException {
+		mainFrame.dispose();
 		GameRoomUI room;
 		String line = in.readLine();
 		System.out.println(line);

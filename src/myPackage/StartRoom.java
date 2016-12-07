@@ -5,9 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,29 +13,29 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class StartRoom extends JPanel {
+public class StartRoom extends JFrame {
 
 	ModeSelect action = new ModeSelect();
 	WaitingRoom wait;
 
-	public StartRoom() {
+	public StartRoom(String arg) {
 
+		setTitle(arg);
 		makeUI();
-		// setLocation(500,200);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1052, 764);
-
+		setVisible(true);
 	}
 
 	private void makeUI() {
 		this.setLayout(null);
 		this.setBounds(0, 0, 1052, 764);
-
 		// 버튼 생성
 		JButton Teambtn = new JButton(new ImageIcon("teammatch.png"));
 		JButton Singlebtn = new JButton(new ImageIcon("singlematch.png"));
 		Teambtn.setText("TEAM");
 		Singlebtn.setText("SINGLE");
-
+	
 		Teambtn.setBorder(new EmptyBorder(10, 10, 10, 10)); // 테두리 투명화
 		Singlebtn.setBorder(new EmptyBorder(10, 10, 10, 10));
 		Teambtn.setBackground(new Color(9, 21, 52));
@@ -61,7 +59,7 @@ public class StartRoom extends JPanel {
 
 	public void paintComponent(Graphics g) { // Graphics객체를 그릴수 있는 도구.
 
-		super.paintComponent(g);
+		paintComponents(g);
 		Image backImg = new ImageIcon("Login3.png").getImage();
 		g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
 
@@ -73,8 +71,9 @@ public class StartRoom extends JPanel {
 			JButton b = (JButton) e.getSource();
 			System.out.println("Select button " + b.getText());
 			TTC_Client.sendMode(b.getText());
+			
 			wait = new WaitingRoom();
-		
+	
 			String line;
 			try {
 					line = TTC_Client.getIn().readLine();
@@ -82,7 +81,7 @@ public class StartRoom extends JPanel {
 					// game Start!
 
 					if (line.startsWith("GAMESTART")) {
-						TTC_Client.panel.stopWaiting();
+						wait.setVisible(false);
 						TTC_Client.mainFrame.setVisible(false);
 						
 						try {
