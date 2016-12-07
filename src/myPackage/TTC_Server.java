@@ -95,7 +95,7 @@ public class TTC_Server {
 				// change to GAMEMODE
 				if (singlePlayers.size()!=0&&singlePlayers.size()%2 == 0) {
 					System.out.println("Single Match start");
-					new singleGameStart(singlePlayers);
+					new singleGameStart(singlePlayers, socket);
 				} else if (teamPlayers.size()!=0&&teamPlayers.size()%4 == 0) {
 					System.out.println("Team Match start");
 					new teamGameStart(teamPlayers);

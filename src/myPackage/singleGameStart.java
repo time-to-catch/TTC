@@ -18,20 +18,20 @@ public class singleGameStart {
 
 	private ArrayList<Player> currentPlayers;
 	private static int roomSize;
-	public int currentRoom;
-	String answer = null;
+	String answer;
 
-	public singleGameStart(ArrayList<Player> singlePlayers) throws IOException {
+	public singleGameStart(ArrayList<Player> singlePlayers, Socket soc) throws IOException {
 		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
+		socket = soc;
 		System.out.println("-Player List-");
 		for (int i = 0; i < singlePlayers.size(); i++) {
-			System.out.println("user" +i+": " + currentPlayers.get(i).getName());
+			System.out.println("user" + i + ": " + currentPlayers.get(i).getName());
 			currentPlayers.get(i).toClient("GAMESTART");
 		}
-		
-		divideTeam();
 
+		divideTeam();
+		
 		setRoomSize(currentPlayers.size());
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			currentPlayers.get(i).setRoomSize(roomSize);
@@ -75,7 +75,7 @@ public class singleGameStart {
 
 	public void setUserPlace(int numUser) {
 		for (int i = 0; i < currentPlayers.size(); i++) {
-			currentPlayers.get(i).setCurrentRoom(i * 3);
+			currentPlayers.get(i).setCurrentRoom((i * 3)%roomSize);
 		}
 	}
 
@@ -115,16 +115,11 @@ public class singleGameStart {
 			}
 
 			// transfer problem
-			String problem = null;
+			String line = null;
 			outToClient = new PrintWriter(socket.getOutputStream(), true);
 			while (true) {
 				while (fileReader.hasNextLine()) {
-					problem = fileReader.nextLine();
-					if (!problem.startsWith("ANSWER")) {
-						outToClient.println(problem);
-					} else {
-						answer = problem.substring(7, problem.length());
-					}
+						outToClient.println(line);
 				}
 				fileReader.close();
 			}

@@ -86,7 +86,6 @@ public class TTC_Client {
 		System.out.println(line);
 		if (line.startsWith("TEAM")) {
 			line = line.substring(5, line.length());
-
 			if (line.equalsIgnoreCase("infectee"))
 				con.add(new GameRoomPanel("TTC_Gui_infectee.png"));
 			else
@@ -94,7 +93,20 @@ public class TTC_Client {
 		}
 		//gameFrame.setVisible(true);
 
-	}
+		
+//		/* Problem receiver */
+//		String answer;	
+//		line = in.readLine();
+//		if (line.startsWith("PROBLEM")) {
+//			line = line.substring(8,line.length());
+//			System.out.println("line");
+//		} else if (line.startsWith("CHOICE")) {
+//			line = line.substring(8,line.length());
+//		} else if (line.startsWith("ANSWER")) {
+//			answer = line.substring(7, line.length());
+//		} 
+		
+}
 
 	public void answerCheck() throws IOException {
 

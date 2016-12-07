@@ -1,24 +1,15 @@
 package myPackage;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Panel;
-import java.awt.TextArea;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -26,6 +17,7 @@ import javax.swing.JTextField;
 public class GameRoomPanel extends JPanel{
 
 	String imageFile;
+	JTextArea question;
 	public GameRoomPanel(String fileName) {
 		
 	      setName("Time To Catch");
@@ -40,7 +32,7 @@ public class GameRoomPanel extends JPanel{
 	      this.setLayout(null);
 	      this.setBounds(0, 0, 1052, 764);
 	     
-		  JTextArea question = new JTextArea("This is question!");
+		  question = new JTextArea("This is question!");
 	      question.setBounds(48, 40, 950, 440);
 	      question.setBackground(new Color(51, 0, 0));
 	      question.setEditable(false);
@@ -102,6 +94,11 @@ public class GameRoomPanel extends JPanel{
 
 	   }
 
+	   public void setQst(String line){
+		   question.setText(line);
+	   }
+	   
+	   
 	   public void buttonSet(JButton b){
 		   
 		   b.setBackground(Color.WHITE);
