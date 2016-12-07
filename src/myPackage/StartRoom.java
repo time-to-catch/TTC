@@ -102,7 +102,7 @@ public class StartRoom extends JPanel {
 
 	public void stopWaiting() {
 		wait.setVisible(false);
-		wait.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//wait.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void addAction(JButton A, ModeSelect T) {

@@ -34,6 +34,7 @@ public class GameRoomUI extends JPanel{
 	      makeUI();
 	      //setLocation(500,200);
 	      setSize(1052, 764);
+	      setVisible(true);
 	   }
 
 	   private void makeUI() {
@@ -126,11 +127,7 @@ class ButtonActionListener implements ActionListener {
 	   @Override
 	   public void actionPerformed(ActionEvent e) {
 	      // TODO Auto-generated method stub
-	      JButton b = (JButton) e.getSource();
-
-	     
-	      
-	      
+	      JButton b = (JButton) e.getSource();	      
 	      
 	   }
 
