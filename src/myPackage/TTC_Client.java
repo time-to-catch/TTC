@@ -31,10 +31,10 @@ public class TTC_Client {
 	static PrintWriter out;
 	int pNum;
 	static int answer;
-	static String name;
+	String name;
 	JFrame frame = new JFrame("Info");
 	static JFrame mainFrame;
-	static JFrame wait;
+	JFrame wait;
 	JPanel panel;
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
@@ -99,6 +99,7 @@ public class TTC_Client {
 		mainFrame.add(panel);
 		mainFrame.setResizable(false);
 		mainFrame.setSize(1052, 764);
+		mainFrame.setLocation(450, 125);
 		mainFrame.setVisible(true);
 	}
 
@@ -153,6 +154,7 @@ public class TTC_Client {
 						
 				wait.add(p);
 				wait.setSize(593,241);
+				wait.setLocation(700, 400);
 				wait.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				wait.setUndecorated(true);
 				wait.setVisible(true);
@@ -194,7 +196,7 @@ public class TTC_Client {
 		out.println("MODE " + m);
 	}
 
-	public static void answerCheck(String num) throws IOException {
+	public void answerCheck(String num) throws IOException {
 		if (answer == Integer.parseInt(num)) {
 			out.println("CORRECT " + name);
 		} else {
