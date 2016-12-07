@@ -23,7 +23,7 @@ public class TTC_Client {
 	JTextArea messageArea = new JTextArea(8, 40);
 
 	public TTC_Client() {
-		mainFrame = new JFrame("Time To Catch");
+		mainFrame = new JFrame();
 		mainFrame.setTitle("Time to Catch!");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(new StartPanel());
@@ -72,6 +72,31 @@ public class TTC_Client {
 
 	public static void sendMode(String m) {
 		out.println("MODE " + m);
+	}
+	public static void getReady(){
+		
+		String line;
+		try {
+			line = TTC_Client.getIn().readLine();
+			System.out.println(line);
+			// game Start!
+
+			if (line.startsWith("GAMESTART")) {
+				try {
+					
+					mainFrame.dispose();
+					gameStart();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		
 	}
 
 	public static void gameStart() throws IOException {

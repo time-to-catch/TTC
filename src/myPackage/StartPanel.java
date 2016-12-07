@@ -1,25 +1,26 @@
 package myPackage;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
 
 public class StartPanel extends JPanel {
-
-	ModeSelect action = new ModeSelect();
-	//WaitingRoom wait;
 	JFrame waitFrame;
-	
+	ModeSelect action = new ModeSelect();
+	// WaitingRoom wait;
+	// JFrame waitFrame;
+
 	public StartPanel() {
 		makeUI();
 		setVisible(true);
@@ -60,7 +61,7 @@ public class StartPanel extends JPanel {
 
 		super.paintComponent(g);
 		Image backImg = new ImageIcon("Login3.png").getImage();
-		g.drawImage(backImg,0,0,getWidth(),getHeight(),this);
+		g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
 	}
 
 	class ModeSelect implements ActionListener {
@@ -70,44 +71,42 @@ public class StartPanel extends JPanel {
 			System.out.println("Select button " + b.getText());
 			TTC_Client.sendMode(b.getText());
 
-			waitFrame = new JFrame();
+			waitFrame = new JFrame("Waiting");
+			waitFrame.setLayout(new BorderLayout());
 			Container con = waitFrame.getContentPane();
-			con.add(new WaitingPanel());
+			con.add(new PicturePanel(),BorderLayout.CENTER);
+			waitFrame.setSize(593,241);
+			waitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			waitFrame.setUndecorated(true);
 			waitFrame.setVisible(true);
-			waitFrame.setSize(380,200);
-
-			String line;
-			try {
-				line = TTC_Client.getIn().readLine();
-				System.out.println(line);
-				// game Start!
-
-				if (line.startsWith("GAMESTART")) {
-					try {
-						waitFrame.setVisible(false);
-						TTC_Client.mainFrame.dispose();
-						TTC_Client.gameStart();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			} catch (IOException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-
+			
+			TTC_Client.getReady();
 		}
 	}
-
-	/*public void stopWaiting() {
-		wait.setVisible(false);
-		// wait.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}*/
+	public JFrame getWaitFrame(){
+		return waitFrame;
+	}
 
 	public void addAction(JButton A, ModeSelect T) {
 		A.addActionListener(T);
 	}
 
+	class PicturePanel extends JPanel {
+
+		public PicturePanel(){
+			setOpaque(false);
+			setVisible(true);
+		}
+		
+		@Override
+		public void paintComponent(Graphics g) {
+			System.out.println("Panel");
+			super.paintComponent(g);
+			Image popImg = new ImageIcon("waiting.png").getImage();
+			g.drawImage(popImg, 0, 0, getWidth(), getHeight(), this);
+		}
+		
+	}
+
 }
+
