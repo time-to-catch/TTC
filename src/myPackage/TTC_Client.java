@@ -16,13 +16,19 @@ public class TTC_Client {
 	static BufferedReader in;
 	static PrintWriter out;
 	int pNum;
-	JFrame frame = new JFrame("Time To Catch!");
-	static StartRoom mainFrame = new StartRoom("Time To Catch");
+	JFrame frame = new JFrame("Info");
+	JFrame mainFrame;
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
 
 	public TTC_Client() {
-
+		mainFrame = new JFrame("Time To Catch");
+		mainFrame.setTitle("Time to Catch!");
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setResizable(false);
+		mainFrame.add(new StartRoom());
+		mainFrame.setSize(1052, 764);
+		mainFrame.setVisible(true);
 	}
 
 	private String getName() {
@@ -47,8 +53,7 @@ public class TTC_Client {
 
 			line = in.readLine();
 			System.out.println(line);
-			if (line.startsWith("SUBMITNAME") && c == 1) { // filter duplicate
-															// name
+			if (line.startsWith("SUBMITNAME") && c == 1) {
 				out.println(getName());
 			} else if (line.startsWith("NAMEACCEPTED")) {
 				textField.setEditable(true);
@@ -60,16 +65,16 @@ public class TTC_Client {
 		}
 	}
 
-	public static BufferedReader getIn(){
+	public static BufferedReader getIn() {
 		return in;
 	}
-	
+
 	public static void sendMode(String m) {
 		out.println("MODE " + m);
 	}
 
 	public static void gameStart() throws IOException {
-		mainFrame.dispose();
+
 		GameRoomUI room;
 		String line = in.readLine();
 		System.out.println(line);
