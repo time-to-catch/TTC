@@ -27,9 +27,10 @@ public class singleGameStart {
 		System.out.println("-Player List-");
 		for (int i = 0; i < singlePlayers.size(); i++) {
 			System.out.println("user" +i+": " + currentPlayers.get(i).getName());
+			currentPlayers.get(i).toClient("GAMESTART");
 		}
-
-		divdeTeam();
+		
+		divideTeam();
 
 		setRoomSize(currentPlayers.size());
 		for (int i = 0; i < currentPlayers.size(); i++) {
@@ -52,7 +53,7 @@ public class singleGameStart {
 		problemSender();
 	}
 
-	public void divdeTeam() {
+	public void divideTeam() {
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			if (i % 2 == 0) {
 				currentPlayers.get(i).toClient("TEAM INFECTEE");

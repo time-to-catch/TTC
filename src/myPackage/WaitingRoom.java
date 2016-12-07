@@ -23,21 +23,8 @@ public class WaitingRoom extends JFrame{
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
-//		JButton cancel = new JButton("Cancel");
-//		cancel.setBounds(110, 100, 150, 25);
-//
-////		frame.add(cancel);
-//		cancel.addActionListener(new ActionListener(){
-//			
-//			public void actionPerformed(ActionEvent e){
-//				
-//				frame.setVisible(false);
-//				
-//			}
-//		});	
-		
 		frame.setLocation(540, 270);
-		frame.setSize(380, 200);
+		frame.setSize(380, 150);
 		frame.setVisible(true);
 	}
 	

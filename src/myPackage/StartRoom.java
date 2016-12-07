@@ -1,16 +1,13 @@
 package myPackage;
 
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -77,10 +74,9 @@ public class StartRoom extends JPanel {
 			System.out.println("Select button " + b.getText());
 			TTC_Client.sendMode(b.getText());
 			wait = new WaitingRoom();
-			
+		
 			String line;
 			try {
-				while (true) {
 					line = TTC_Client.getIn().readLine();
 					System.out.println(line);
 					// game Start!
@@ -96,8 +92,7 @@ public class StartRoom extends JPanel {
 							e1.printStackTrace();
 						}
 					}
-				}
-			} catch (IOException e2) {
+				} catch (IOException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}

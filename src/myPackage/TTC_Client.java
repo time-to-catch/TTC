@@ -99,7 +99,7 @@ public class TTC_Client {
 	}
 
 	public static void gameStart() throws IOException {
-		StartRoom roomUI = new StartRoom();
+		GameRoomUI room;
 		String line = in.readLine();
 		System.out.println(line);
 		line = in.readLine();
@@ -108,9 +108,9 @@ public class TTC_Client {
 			line = line.substring(5, line.length());
 
 			if (line.equalsIgnoreCase("infectee"))
-				new GameRoomUI("TTC_Gui_infectee.png");
+				room = new GameRoomUI("TTC_Gui_infectee.png");
 			else
-				new GameRoomUI("TTC_Gui_Noninfectee.png");
+				room = new GameRoomUI("TTC_Gui_Noninfectee.png");
 		}
 
 	}
