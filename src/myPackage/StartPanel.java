@@ -73,7 +73,7 @@ public class StartPanel extends JPanel {
 			waitFrame = new JFrame();
 			Container con = waitFrame.getContentPane();
 			con.add(new WaitingPanel());
-			waitFrame.setUndecorated(false);
+			waitFrame.setUndecorated(true);
 			waitFrame.setVisible(true);
 			waitFrame.setSize(380,200);
 
@@ -86,6 +86,7 @@ public class StartPanel extends JPanel {
 				if (line.startsWith("GAMESTART")) {
 					try {
 						waitFrame.setVisible(false);
+						TTC_Client.mainFrame.dispose();
 						TTC_Client.gameStart();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block

@@ -18,7 +18,7 @@ public class TTC_Client {
 	static PrintWriter out;
 	int pNum;
 	JFrame frame = new JFrame("Info");
-	JFrame mainFrame;
+	static JFrame mainFrame;
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
 
@@ -57,8 +57,6 @@ public class TTC_Client {
 			if (line.startsWith("SUBMITNAME") && c == 1) {
 				out.println(getName());
 			} else if (line.startsWith("NAMEACCEPTED")) {
-			
-			
 				break;
 			} else
 				out.println(getName("Enter another name:"));
@@ -77,20 +75,24 @@ public class TTC_Client {
 	}
 
 	public static void gameStart() throws IOException {
-
-		GameRoomUI room;
+		
+		System.out.println("enter game start function int TTC_Client");
+		JFrame gameFrame = new JFrame();
+		Container con = gameFrame.getContentPane();
+		gameFrame.setSize(1024, 768);
+		gameFrame.setResizable(false);
+		gameFrame.setVisible(true);
 		String line = in.readLine();
-		System.out.println(line);
-		line = in.readLine();
 		System.out.println(line);
 		if (line.startsWith("TEAM")) {
 			line = line.substring(5, line.length());
 
 			if (line.equalsIgnoreCase("infectee"))
-				room = new GameRoomUI("TTC_Gui_infectee.png");
+				con.add(new GameRoomPanel("TTC_Gui_infectee.png"));
 			else
-				room = new GameRoomUI("TTC_Gui_Noninfectee.png");
+				con.add(new GameRoomPanel("TTC_Gui_Noninfectee.png"));
 		}
+		//gameFrame.setVisible(true);
 
 	}
 

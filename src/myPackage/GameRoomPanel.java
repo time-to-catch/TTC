@@ -23,16 +23,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class GameRoomUI extends JPanel{
+public class GameRoomPanel extends JPanel{
 
 	String imageFile;
-	public GameRoomUI(String file) {
+	public GameRoomPanel(String fileName) {
 		
 	      setName("Time To Catch");
-	      imageFile = file;
+	      imageFile = fileName;
 	      makeUI();
 	      //setLocation(500,200);
-	      setSize(1052, 764);
+	      setSize(1024, 768);
 	      setVisible(true);
 	   }
 
@@ -101,7 +101,7 @@ public class GameRoomUI extends JPanel{
 	      this.add(emergency);
 
 	   }
-	  
+
 	   public void buttonSet(JButton b){
 		   
 		   b.setBackground(Color.WHITE);
