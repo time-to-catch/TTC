@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,7 +37,7 @@ public class TTC_Client {
 	String name;
 	JFrame frame = new JFrame("Info");
 	static JFrame mainFrame;
-	JFrame wait = null;
+	JFrame wait;
 	JPanel panel;
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
@@ -81,7 +83,7 @@ public class TTC_Client {
 			public void actionPerformed(ActionEvent e) {
 				// here do what you gotta do when the button is clicked
 				JButton b = (JButton) e.getSource();
-				TTC_Client.sendMode(b.getText());
+				sendMode(b.getText());
 			}
 
 		});
@@ -91,7 +93,7 @@ public class TTC_Client {
 			public void actionPerformed(ActionEvent e) {
 				// here do what you gotta do when the button is clicked
 				JButton b = (JButton) e.getSource();
-				TTC_Client.sendMode(b.getText());
+				sendMode(b.getText());
 			}
 
 		});
@@ -104,6 +106,15 @@ public class TTC_Client {
 		mainFrame.setSize(1052, 764);
 		mainFrame.setLocation(450, 125);
 		mainFrame.setVisible(true);
+		
+		mainFrame.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e) //WindowAdapter class Overriding
+	         {
+	            mainFrame.dispose(); //내가 사용하던 자원(memory)을 해제하는 method
+	            sendQuit();
+	            System.exit(0); //프로그램 종료 하기
+	         }
+		});
 	}
 
 	private String getName() {
@@ -141,11 +152,13 @@ public class TTC_Client {
 
 		}
 
+		c = 0;
 		while (true) {
 
 			line = in.readLine();
 			System.out.println(line);
-			if (line.startsWith("WAIT") && wait != null) {
+			if (line.startsWith("WAIT") && c == 0) {
+				c++;
 				wait = new JFrame();
 				JPanel p = new JPanel() {
 					public void paintComponent(Graphics g) {
@@ -311,11 +324,11 @@ public class TTC_Client {
 				mainFrame.setVisible(true);
 			} else if (line.startsWith("PROBLEM")) {
 				line = line.substring(8, line.length());
-				question.setText(line+"\n\n");
+				question.setText(line + "\n\n");
 				// print in frame!
 			} else if (line.startsWith("CHOICE")) {
 				line = line.substring(8, line.length());
-				question.append("\t"+line+"\n");
+				question.append("\t" + line + "\n");
 				// print in frame!
 			} else if (line.startsWith("ANSWER")) {
 				answer = Integer.parseInt(line.substring(7, line.length()));
@@ -334,8 +347,12 @@ public class TTC_Client {
 		return in;
 	}
 
-	public static void sendMode(String m) {
+	public void sendMode(String m) {
 		out.println("MODE " + m);
+	}
+	
+	public void sendQuit() {
+		out.println("QUIT " + name);
 	}
 
 	public void answerCheck(String num) throws IOException {
@@ -348,13 +365,13 @@ public class TTC_Client {
 		}
 	}
 
-//	public void setQst(String line) {
-//		question.setText(line);
-//	}
-//	
-//	public void setStatus(String line) {
-//		status.setText(line);
-//	}
+	// public void setQst(String line) {
+	// question.setText(line);
+	// }
+	//
+	// public void setStatus(String line) {
+	// status.setText(line);
+	// }
 
 	public void buttonSet(JButton b) {
 
