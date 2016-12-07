@@ -1,25 +1,30 @@
 package myPackage;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class StartPanel extends JPanel {
 
 	ModeSelect action = new ModeSelect();
-	//WaitingRoom wait;
-	JFrame waitFrame;
-	
+	// WaitingRoom wait;
+	// JFrame waitFrame;
+
 	public StartPanel() {
 		makeUI();
 		setVisible(true);
@@ -60,7 +65,7 @@ public class StartPanel extends JPanel {
 
 		super.paintComponent(g);
 		Image backImg = new ImageIcon("Login3.png").getImage();
-		g.drawImage(backImg,0,0,getWidth(),getHeight(),this);
+		g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
 	}
 
 	class ModeSelect implements ActionListener {
@@ -70,13 +75,23 @@ public class StartPanel extends JPanel {
 			System.out.println("Select button " + b.getText());
 			TTC_Client.sendMode(b.getText());
 
-			waitFrame = new JFrame();
-			Container con = waitFrame.getContentPane();
-			con.add(new WaitingPanel());
+//			WaitingFrame waitFrame = new WaitingFrame();
+//			waitFrame.setUndecorated(true);
+//			waitFrame.setSize(593,241);
+			JFrame waitFrame = new JFrame("Waiting...");
+			JPanel panel = new JPanel() {
+				public void paintComponent(Graphics g) {
+					g.drawImage(new ImageIcon("waiting.png").getImage(), 0, 0, null);
+					setOpaque(false);
+					super.paintComponent(g);
+				}
+			};
+			waitFrame.setSize(593,241);
+			waitFrame.getContentPane().add(panel, "Center");
+			waitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			waitFrame.setUndecorated(true);
 			waitFrame.setVisible(true);
-			waitFrame.setSize(380,200);
-
+			
 			String line;
 			try {
 				line = TTC_Client.getIn().readLine();
@@ -101,10 +116,10 @@ public class StartPanel extends JPanel {
 		}
 	}
 
-	/*public void stopWaiting() {
-		wait.setVisible(false);
-		// wait.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}*/
+	/*
+	 * public void stopWaiting() { wait.setVisible(false); //
+	 * wait.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); }
+	 */
 
 	public void addAction(JButton A, ModeSelect T) {
 		A.addActionListener(T);
