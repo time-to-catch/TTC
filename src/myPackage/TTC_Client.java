@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -210,6 +211,9 @@ public class TTC_Client {
 				status.setOpaque(false);
 				status.setFont(new Font("Serif", 20, 20));
 				status.setForeground(Color.WHITE);
+				JScrollPane scroll = new JScrollPane(status);
+				Container contentPane = mainFrame.getContentPane();
+				contentPane.add(scroll);
 				mainFrame.add(status);
 
 				JPanel buttonPanel = new JPanel();
@@ -307,15 +311,19 @@ public class TTC_Client {
 				mainFrame.setVisible(true);
 			} else if (line.startsWith("PROBLEM")) {
 				line = line.substring(8, line.length());
+				question.setText(line+"\n\n");
 				// print in frame!
 			} else if (line.startsWith("CHOICE")) {
 				line = line.substring(8, line.length());
+				question.append("\t"+line+"\n");
 				// print in frame!
 			} else if (line.startsWith("ANSWER")) {
 				answer = Integer.parseInt(line.substring(7, line.length()));
 				// check and send result to server!
 			} else if (line.startsWith("NOTICE")) {
 				line = line.substring(7, line.length());
+				status.append(line);
+				status.setCaretPosition(status.getDocument().getLength());
 				// print in frame!
 			}
 		}
@@ -332,15 +340,21 @@ public class TTC_Client {
 
 	public void answerCheck(String num) throws IOException {
 		if (answer == Integer.parseInt(num)) {
+			System.out.println("CORRECT");
 			out.println("CORRECT " + name);
 		} else {
+			System.out.println("INCORRECT");
 			out.println("INCORRECT " + name);
 		}
 	}
 
-	public void setQst(String line) {
-		question.setText(line);
-	}
+//	public void setQst(String line) {
+//		question.setText(line);
+//	}
+//	
+//	public void setStatus(String line) {
+//		status.setText(line);
+//	}
 
 	public void buttonSet(JButton b) {
 
