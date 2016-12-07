@@ -93,7 +93,6 @@ public class TTC_Server {
 				
 					/*wait for another user*/
 					while(singlePlayers.size()==0&&singlePlayers.size()%2 != 0)
-						continue;
 					
 					if (singlePlayers.size()!=0&&singlePlayers.size()%2 == 0) {
 						System.out.println("Single Match start");

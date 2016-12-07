@@ -19,33 +19,32 @@ public class singleGameStart {
 	public singleGameStart(ArrayList<Player> singlePlayers, Socket soc) throws IOException {
 		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
-		
-		
+
 		System.out.println("-Player List-");
 		for (int i = 0; i < singlePlayers.size(); i++) {
 			System.out.println("user" + i + ": " + currentPlayers.get(i).getName());
-		/*notice to client for game start*/
+			/* notice to client for game start */
 			currentPlayers.get(i).toClient("GAMESTART");
 		}
-		
-		/*decide your team*/
+
+		/* decide your team */
 		divideTeam();
-		
-		/*decide room size*/
+
+		/* decide room size */
 		setRoomSize(currentPlayers.size());
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			currentPlayers.get(i).setRoomSize(roomSize);
 		}
 		System.out.println("Room size: " + getRoomSize());
-		
-		/*setting location*/
+
+		/* setting location */
 		setUserPlace(currentPlayers.size());
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			System.out.println(currentPlayers.get(i).getName() + ", " + currentPlayers.get(i).getTeam()
 					+ ", location : " + currentPlayers.get(i).getCurrentRoom());
 		}
-		
-		/*problem send start*/
+
+		/* problem send start */
 		for (int i = 0; i < currentPlayers.size(); i++)
 			this.problemSender(i);
 	} // constructor
@@ -89,8 +88,23 @@ public class singleGameStart {
 					currentPlayers.get(currentID).goToNextRoom();
 				}
 			}
+			
+			for(int j=i;j<currentPlayers.size();j++){
+				checkingCloser(i,j);
+			}
 
 		}
+	}
+
+	public void checkingCloser(int personA, int personB) {
+		if (currentPlayers.get(personA).getCurrentRoom() - currentPlayers.get(personB).getCurrentRoom() == 1) {
+			currentPlayers.get(personA).toClient("NOTICE You can feel warm temperature.");
+			currentPlayers.get(personB).toClient("NOTICE You can hear foot step");
+		} else if (currentPlayers.get(personB).getCurrentRoom() - currentPlayers.get(personA).getCurrentRoom() == 1) {
+			currentPlayers.get(personB).toClient("NOTICE You can feel warm temperature");
+			currentPlayers.get(personA).toClient("NOTICE You can hear foot step");
+		}
+
 	}
 
 	public void sendEnding(int indexOfUser) {
