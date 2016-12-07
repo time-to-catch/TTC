@@ -121,6 +121,13 @@ public class TTC_Server {
 					personID = singlePlayers.indexOf(line);
 					singleRoom.problemSender(personID);
 				}
+				else if(line.startsWith("QUIT")){	// "QUIT + name"
+					int personID;
+					line = line.substring(5, line.length());
+					personID = singlePlayers.indexOf(line);
+					singlePlayers.remove(personID);
+				}
+				
 				
 				}
 
