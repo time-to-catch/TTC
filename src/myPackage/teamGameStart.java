@@ -15,7 +15,6 @@ public class teamGameStart {
 	private ArrayList<Player> currentPlayers;
 	private static int roomSize;
 	String answer;
-
 	public teamGameStart(ArrayList<Player> singlePlayers, Socket soc) throws IOException {
 		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
