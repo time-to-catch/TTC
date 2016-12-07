@@ -167,10 +167,36 @@ public class TTC_Client {
 			} else if (line.startsWith("TEAM")) {
 				line = line.substring(5, line.length());
 				//change gui!
-//				if (line.equalsIgnoreCase("infectee"))
-//					con.add(new GameRoomPanel("TTC_Gui_infectee.png"));
-//				else
-//					con.add(new GameRoomPanel("TTC_Gui_Noninfectee.png"));
+				mainFrame = new JFrame();
+				
+				if (line.equalsIgnoreCase("infectee"))
+				{
+					panel = new JPanel() {
+						public void paintComponent(Graphics g) {
+							g.drawImage(new ImageIcon("TTC_Gui_infectee.png").getImage(), 0, 0, getWidth(), getHeight(), this);
+							setOpaque(false);
+							super.paintComponent(g);
+						}
+					};
+				}
+				else
+				{
+					panel = new JPanel() {
+						public void paintComponent(Graphics g) {
+							g.drawImage(new ImageIcon("TTC_Gui_Noninfectee.png").getImage(), 0, 0, getWidth(), getHeight(), this);
+							setOpaque(false);
+							super.paintComponent(g);
+						}
+					};
+				}
+				mainFrame.setTitle("Time to Catch!");
+				mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				panel.setVisible(true);
+				mainFrame.add(panel);
+				mainFrame.setResizable(false);
+				mainFrame.setSize(1052, 764);
+				mainFrame.setLocation(450, 125);
+				mainFrame.setVisible(true);
 			} else if (line.startsWith("PROBLEM")) {
 				line = line.substring(8, line.length());
 				//print in frame!
