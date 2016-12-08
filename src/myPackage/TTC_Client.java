@@ -36,7 +36,7 @@ public class TTC_Client {
 	static int answer;
 	String name;
 	JFrame frame = new JFrame("Info");
-	static JFrame mainFrame;
+	JFrame mainFrame;
 	JFrame wait;
 	JPanel panel;
 	JTextField textField = new JTextField(40);
@@ -208,7 +208,7 @@ public class TTC_Client {
 
 				mainFrame.setLayout(null);
 				mainFrame.setBounds(0, 0, 1052, 764);
-
+				mainFrame.add(panel);
 				question = new JTextArea("This is question!");
 				question.setBounds(48, 40, 950, 440);
 				question.setBackground(new Color(51, 0, 0));
@@ -327,7 +327,7 @@ public class TTC_Client {
 				question.setText(line + "\n\n");
 				// print in frame!
 			} else if (line.startsWith("CHOICE")) {
-				line = line.substring(8, line.length());
+				line = line.substring(7, line.length());
 				question.append("\t" + line + "\n");
 				// print in frame!
 			} else if (line.startsWith("ANSWER")) {
