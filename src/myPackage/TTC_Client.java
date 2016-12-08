@@ -22,7 +22,6 @@ import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,11 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.Style;
-import javax.swing.text.StyleContext;
-import javax.swing.text.StyledDocument;
 
 public class TTC_Client {
 
@@ -51,10 +46,7 @@ public class TTC_Client {
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
 	JTextArea question;
-	JTextPane status;
-	StyledDocument doc = status.getStyledDocument();
-	Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
-	Style 
+	JTextArea status;
 	Scanner fr = null;
 	JFrame gameframe;
 
@@ -165,6 +157,7 @@ public class TTC_Client {
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
 		String line;
+		String color;
 		int c = 1;
 
 		while (true) {
@@ -220,7 +213,7 @@ public class TTC_Client {
 				gameframe = new JFrame();
 				Container contentPane = gameframe.getContentPane();
 				question = new JTextArea("This is question area!");
-				status = new JTextPane(); 
+				status = new JTextArea("This is status of user!");
 				JPanel buttonPanel = new JPanel();
 
 				if (line.startsWith("NON")) {
@@ -245,7 +238,7 @@ public class TTC_Client {
 				question.setBounds(48, 40, 950, 440);
 				question.setEditable(false);
 				question.setOpaque(true);
-				question.setFont(new Font("Serif", 20, 20));
+				question.setFont(new Font("Terminal", 20, 20));
 				question.setForeground(Color.WHITE);
 				JScrollPane scroll1 = new JScrollPane(question);
 				contentPane.add(scroll1);
@@ -255,7 +248,7 @@ public class TTC_Client {
 				status.setBounds(48, 515, 777, 180);
 				status.setEditable(false);
 				status.setOpaque(true);
-				status.setFont(new Font("Serif", 20, 20));
+				status.setFont(new Font("Terminal", 20, 20));
 				status.setForeground(Color.WHITE);
 				JScrollPane scroll2 = new JScrollPane(status);
 				contentPane.add(scroll2);
@@ -390,11 +383,18 @@ public class TTC_Client {
 					}
 				} // print in frame!
 			} else if (line.startsWith("NOTICE")) {
-				String color = line.substring(7, 8);
-				line = line.substring(9, line.length());
-				
-				status.append(line+"\n");
-				//status;
+				line = line.substring(7, line.length());
+				color = line.substring(0,1);
+				line = line.substring(1,line.length());
+				System.out.println(color + " " + line);
+				if(color.equalsIgnoreCase("R"))
+					status.setForeground(Color.RED);
+				else if(color.equalsIgnoreCase("G"))
+					status.setForeground(Color.GREEN);
+				else if(color.equalsIgnoreCase("W"))
+					status.setForeground(Color.WHITE);
+				status.append(line);
+				status.setForeground(Color.WHITE);
 				status.setCaretPosition(status.getDocument().getLength());
 				gameframe.repaint();
 				// print in frame!
