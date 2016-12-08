@@ -79,7 +79,7 @@ public class TTC_Client {
 		};
 
 		JButton Teambtn = new JButton(new ImageIcon("teammatch.png"));
-		JButton Singlebtn = new JButton(new ImageIcon("singlematch.png"));
+		JButton Singlebtn = new JButton(new ImageIcon("match start.png"));
 		Teambtn.setText("TEAM");
 		Singlebtn.setText("SINGLE");
 
@@ -100,7 +100,7 @@ public class TTC_Client {
 		Teambtn.setFocusPainted(false);
 		Teambtn.setContentAreaFilled(true);
 		Teambtn.setOpaque(false);
-
+		Teambtn.setVisible(false);
 		Singlebtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -214,8 +214,7 @@ public class TTC_Client {
 				gameframe = new JFrame();
 				bgm = new Sound("mettaton_ex.wav", true);
 				Container contentPane = gameframe.getContentPane();
-				
-				
+
 				question = new JTextArea("This is question!\n");
 				status = new JTextArea("This is status of user!\n");
 				JPanel buttonPanel = new JPanel();
@@ -223,29 +222,33 @@ public class TTC_Client {
 				if (line.startsWith("NON")) {
 					nonP.setSize(1052, 760);
 					gameframe.setTitle("Noninfectee");
-					gameroom = new JPanel(){
-						public void paintComponent(Graphics g) {// Graphics객체는 그릴수 있는 도구.				        
-						  super.paintComponent(g);
+					gameroom = new JPanel() {
+						public void paintComponent(Graphics g) {// Graphics객체는
+																// 그릴수 있는 도구.
+							super.paintComponent(g);
 							Image backImg = new ImageIcon("TTC_Gui_Noninfectee.png").getImage();
-					      g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
+							g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
 
-					   }};
+						}
+					};
 				} else {
 					inP.setSize(1052, 760);
 					gameframe.setTitle("Infectee");
-					gameroom = new JPanel(){
-						public void paintComponent(Graphics g) {// Graphics객체는 그릴수 있는 도구.				        
-						  super.paintComponent(g);
+					gameroom = new JPanel() {
+						public void paintComponent(Graphics g) {// Graphics객체는
+																// 그릴수 있는 도구.
+							super.paintComponent(g);
 							Image backImg = new ImageIcon("TTC_Gui_infectee.png").getImage();
-					      g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
+							g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
 
-					   }};
+						}
+					};
 				}
-				
+
 				gameroom.setLayout(null);
 				gameroom.setBounds(0, 0, 1052, 764);
-//				gameframe.setLayout(null);
-//				gameframe.setBounds(0, 0, 1052, 764);
+				// gameframe.setLayout(null);
+				// gameframe.setBounds(0, 0, 1052, 764);
 				question.setBounds(48, 40, 950, 440);
 				question.setBackground(new Color(51, 0, 0));
 				question.setEditable(false);
