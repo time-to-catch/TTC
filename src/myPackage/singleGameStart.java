@@ -52,11 +52,18 @@ public class singleGameStart {
 	public void divideTeam() {
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			if (i % 2 == 0) {
+				if(currentPlayers.get(i).getTeam()==Team.NONE){
 				currentPlayers.get(i).toClient("TEAM INFECTEE");
 				currentPlayers.get(i).setTeam(Team.INFECTEE);
+				}
+				else
+					continue;
 			} else {
+				if(currentPlayers.get(i).getTeam()==Team.NONE){
 				currentPlayers.get(i).toClient("TEAM NONINFECTEE");
 				currentPlayers.get(i).setTeam(Team.NONINFECTEE);
+				}
+				else continue;
 			}
 		}
 	}
