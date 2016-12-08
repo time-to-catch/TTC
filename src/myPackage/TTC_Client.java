@@ -212,8 +212,8 @@ public class TTC_Client {
 				mainFrame.dispose();
 				gameframe = new JFrame();
 				Container contentPane = gameframe.getContentPane();
-				question = new JTextArea("This is question area!");
-				status = new JTextArea("This is status of user!");
+				question = new JTextArea("This is question area!\n");
+				status = new JTextArea("This is status of user!\n");
 				JPanel buttonPanel = new JPanel();
 
 				if (line.startsWith("NON")) {
@@ -231,8 +231,8 @@ public class TTC_Client {
 					status.setBackground(new Color(51, 0, 0));
 					buttonPanel.setBackground(new Color(51, 0, 0));
 				}
-
 				
+				status.setVisible(true);
 				gameframe.setLayout(null);
 				gameframe.setBounds(0, 0, 1052, 764);
 				question.setBounds(48, 40, 950, 440);
@@ -244,28 +244,28 @@ public class TTC_Client {
 				contentPane.add(scroll1);
 				gameframe.add(question);
 
-				
 				status.setBounds(48, 515, 777, 180);
 				status.setEditable(false);
 				status.setOpaque(true);
 				status.setFont(new Font("Terminal", 20, 20));
 				status.setForeground(Color.WHITE);
+				status.setVisible(true);
 				JScrollPane scroll2 = new JScrollPane(status);
 				contentPane.add(scroll2);
 				gameframe.add(status);
 
-				
 				buttonPanel.setLayout(new GridLayout(2, 2));
 				buttonPanel.setSize(20, 20);
 				buttonPanel.setLocation(750, 490);
 				buttonPanel.setBounds(833, 515, 170, 180);
 				buttonPanel.setOpaque(true);
+				buttonPanel.setVisible(true);
 
 				JButton buttonOne = new JButton(new ImageIcon("one.png"));
 				JButton buttonTwo = new JButton(new ImageIcon("two.png"));
 				JButton buttonThree = new JButton(new ImageIcon("three.png"));
 				JButton buttonFour = new JButton(new ImageIcon("Four.png"));
-
+			
 				buttonSet(buttonOne);
 				buttonOne.addActionListener(new ActionListener() {
 					@Override
@@ -329,14 +329,18 @@ public class TTC_Client {
 					}
 
 				});
-
+				
+				buttonOne.setVisible(true);
+				buttonTwo.setVisible(true);
+				buttonThree.setVisible(true);
+				buttonFour.setVisible(true);
 				buttonPanel.add(buttonOne);
 				buttonPanel.add(buttonTwo);
 				buttonPanel.add(buttonThree);
 				buttonPanel.add(buttonFour);
+				buttonPanel.setVisible(true);
+				
 				gameframe.add(buttonPanel);
-
-				gameframe.setTitle("Time to Catch!");
 				gameframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				gameframe.setResizable(false);
 				gameframe.setSize(1052, 764);
@@ -370,12 +374,10 @@ public class TTC_Client {
 					if (line.startsWith("PROBLEM")) {
 						line = line.substring(8, line.length());
 						question.setText(line + "\n\n");
-						gameframe.repaint();
 					} else if (line.startsWith("CHOICE")) {
 						line = line.substring(7, line.length());
 						question.append("\t" + line + "\n");
 						question.setCaretPosition(question.getDocument().getLength());
-						gameframe.repaint();
 						// print in frame!
 					} else if (line.startsWith("ANSWER")) {
 						answer = Integer.parseInt(line.substring(7, line.length()));
@@ -384,23 +386,26 @@ public class TTC_Client {
 				} // print in frame!
 			} else if (line.startsWith("NOTICE")) {
 				line = line.substring(7, line.length());
-				color = line.substring(0,1);
-				line = line.substring(1,line.length());
+				color = line.substring(0, 1);
+				line = line.substring(2, line.length());
 				System.out.println(color + " " + line);
-				if(color.equalsIgnoreCase("R"))
+				if (color.equalsIgnoreCase("R"))
 					status.setForeground(Color.RED);
-				else if(color.equalsIgnoreCase("G"))
+				else if (color.equalsIgnoreCase("G"))
 					status.setForeground(Color.GREEN);
-				else if(color.equalsIgnoreCase("W"))
+				else if (color.equalsIgnoreCase("W"))
 					status.setForeground(Color.WHITE);
-				status.append(line);
+				status.append(line + "\n");
 				status.setForeground(Color.WHITE);
 				status.setCaretPosition(status.getDocument().getLength());
-				gameframe.repaint();
 				// print in frame!
 			}
+			else if(line.startsWith("GAMEOVER")){
+				status.setForeground(Color.RED);
+				status.append(line + "\n");
+				break;
+			}
 		}
-
 	}
 
 	public static BufferedReader getIn() {

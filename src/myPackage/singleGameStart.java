@@ -101,14 +101,31 @@ public class singleGameStart {
 	}
 
 	public void checkingCloser(int personA, int personB) {
-		if (currentPlayers.get(personA).getCurrentRoom() - currentPlayers.get(personB).getCurrentRoom() == 1) {
+		
+		if (Math.abs(currentPlayers.get(personA).getCurrentRoom() - currentPlayers.get(personB).getCurrentRoom()) == 1)
+		{
+			if(currentPlayers.get(personA).getCurrentRoom()> currentPlayers.get(personB).getCurrentRoom()){
 			currentPlayers.get(personA).toClient("NOTICE G You can feel warm temperature.");
 			currentPlayers.get(personB).toClient("NOTICE R You can hear foot step");
-		} else if (currentPlayers.get(personB).getCurrentRoom() - currentPlayers.get(personA).getCurrentRoom() == 1) {
-			currentPlayers.get(personB).toClient("NOTICE G You can feel warm temperature");
-			currentPlayers.get(personA).toClient("NOTICE R You can hear foot step");
-		} else
-			return;
+			}
+			else{
+				currentPlayers.get(personB).toClient("NOTICE G You can feel warm temperature");
+				currentPlayers.get(personA).toClient("NOTICE R You can hear foot step");
+			}
+		}
+		
+		else if ((currentPlayers.get(personA).getCurrentRoom()==5 &&  currentPlayers.get(personB).getCurrentRoom()==0)
+		||(currentPlayers.get(personB).getCurrentRoom()==5 &&  currentPlayers.get(personA).getCurrentRoom()==0)){
+			
+			if(currentPlayers.get(personA).getCurrentRoom()> currentPlayers.get(personB).getCurrentRoom()){
+				currentPlayers.get(personA).toClient("NOTICE G You can feel warm temperature.");
+				currentPlayers.get(personB).toClient("NOTICE R You can hear foot step");
+				}
+				else{
+					currentPlayers.get(personB).toClient("NOTICE G You can feel warm temperature");
+					currentPlayers.get(personA).toClient("NOTICE R You can hear foot step");
+				}
+		}
 	}
 
 	public void sendEnding(int indexOfUser) {
@@ -122,7 +139,6 @@ public class singleGameStart {
 			if (currentPlayers.get(i).getCurrentRoom() == -1)
 				c++;
 		}
-
 		if (c == currentPlayers.size() - 1)
 			for (int i = 0; i < currentPlayers.size(); i++)
 				currentPlayers.get(i).toClient("GAMEOVER");
