@@ -48,8 +48,8 @@ public class TTC_Client {
 	JTextArea question;
 	JTextArea status;
 	Scanner fr = null;
-	JFrame gameframe; 
-	
+	JFrame gameframe;
+
 	public TTC_Client() {
 		mainFrame = new JFrame();
 		panel = new JPanel() {
@@ -211,41 +211,51 @@ public class TTC_Client {
 				mainFrame.dispose();
 				gameframe = new JFrame();
 				Container contentPane = gameframe.getContentPane();
+				question = new JTextArea("This is question area!");
+				status = new JTextArea("This is status of user!");
+				JPanel buttonPanel = new JPanel();
 
 				if (line.startsWith("NON")) {
 					nonP.setSize(1052, 760);
 					gameframe.setTitle("Noninfectee");
 					gameframe.add(nonP, BorderLayout.CENTER);
+					question.setBackground(new Color(71, 71, 71));
+					status.setBackground(new Color(71, 71, 71));
+					buttonPanel.setBackground(new Color(71, 71, 71));
 				} else {
 					inP.setSize(1052, 760);
 					gameframe.setTitle("Infectee");
 					gameframe.add(inP, BorderLayout.CENTER);
+					question.setBackground(new Color(51, 0, 0));
+					status.setBackground(new Color(51, 0, 0));
+					buttonPanel.setBackground(new Color(51, 0, 0));
 				}
 
+				
 				gameframe.setLayout(null);
 				gameframe.setBounds(0, 0, 1052, 764);
-				 question = new JTextArea("This is question!");
-				 question.setBounds(48, 40, 950, 440);
-				 //question.setBackground(new Color(51, 0, 0));
-				 question.setEditable(false);
-				 question.setOpaque(true);
-				 question.setFont(new Font("Serif", 20, 20));
-				 //question.setForeground(Color.WHITE);
-				 gameframe.add(question);
+				question.setBounds(48, 40, 950, 440);
+				question.setEditable(false);
+				question.setOpaque(true);
+				question.setFont(new Font("Serif", 20, 20));
+				question.setForeground(Color.WHITE);
+				JScrollPane scroll1 = new JScrollPane(question);
+				contentPane.add(scroll1);
+				gameframe.add(question);
 
-				 status = new JTextArea("This is status of user!");
-				 status.setBounds(48, 515, 777, 180);
-				 status.setEditable(false);
-				 status.setOpaque(true);
-				 status.setFont(new Font("Serif", 20, 20));
-				 //status.setForeground(Color.WHITE);
-				 JScrollPane scroll = new JScrollPane(status);
-				 contentPane.add(scroll);
-				 gameframe.add(status);
 				
-				JPanel buttonPanel = new JPanel();
+				status.setBounds(48, 515, 777, 180);
+				status.setEditable(false);
+				status.setOpaque(true);
+				status.setFont(new Font("Serif", 20, 20));
+				status.setForeground(Color.WHITE);
+				JScrollPane scroll2 = new JScrollPane(status);
+				contentPane.add(scroll2);
+				gameframe.add(status);
+
+				
 				buttonPanel.setLayout(new GridLayout(2, 2));
-				buttonPanel.setSize(20,20);
+				buttonPanel.setSize(20, 20);
 				buttonPanel.setLocation(750, 490);
 				buttonPanel.setBounds(833, 515, 170, 180);
 				buttonPanel.setOpaque(true);
@@ -254,7 +264,6 @@ public class TTC_Client {
 				JButton buttonTwo = new JButton(new ImageIcon("two.png"));
 				JButton buttonThree = new JButton(new ImageIcon("three.png"));
 				JButton buttonFour = new JButton(new ImageIcon("Four.png"));
-
 
 				buttonSet(buttonOne);
 				buttonOne.addActionListener(new ActionListener() {
@@ -364,6 +373,7 @@ public class TTC_Client {
 					} else if (line.startsWith("CHOICE")) {
 						line = line.substring(7, line.length());
 						question.append("\t" + line + "\n");
+						question.setCaretPosition(question.getDocument().getLength());
 						gameframe.repaint();
 						// print in frame!
 					} else if (line.startsWith("ANSWER")) {
@@ -406,6 +416,7 @@ public class TTC_Client {
 
 	public void buttonSet(JButton b) {
 
+		b.setBackground(Color.WHITE);
 		b.setBorderPainted(false);
 		b.setFocusPainted(false);
 		b.setContentAreaFilled(true);
