@@ -67,7 +67,7 @@ public class TTC_Client {
 				setOpaque(false);
 				System.out.println("change to noninfectee image!");
 				// repaint();
-			}
+			};
 		};
 
 		inP = new JPanel() {
@@ -212,38 +212,43 @@ public class TTC_Client {
 				// change gui!
 				mainFrame.setVisible(false);
 				mainFrame.dispose();
-				JFrame frame = new JFrame();
-				Container contentPane = frame.getContentPane();
+				JFrame gameframe = new JFrame();
+				Container contentPane = gameframe.getContentPane();
 
 				if (line.startsWith("NON")) {
-					frame.add(nonP);
+					nonP.setSize(1052, 764);
+					gameframe.setTitle("Noninfectee");
+					gameframe.add(nonP);
 				} else {
-					frame.add(inP);
+					inP.setSize(1052, 764);
+					gameframe.setTitle("Infectee");
+					gameframe.add(inP);
 				}
 
-				// frame.setLayout(null);
-				// frame.setBounds(0, 0, 1052, 764);
-				// question = new JTextArea("This is question!");
-				// question.setBounds(48, 40, 950, 440);
-				// question.setBackground(new Color(51, 0, 0));
-				// question.setEditable(false);
-				// question.setOpaque(false);
-				// question.setFont(new Font("Serif", 20, 20));
-				// question.setForeground(Color.WHITE);
-				// frame.add(question);
+				gameframe.setLayout(null);
+				gameframe.setBounds(0, 0, 1052, 764);
+				 question = new JTextArea("This is question!");
+				 question.setBounds(48, 40, 950, 440);
+				 question.setBackground(new Color(51, 0, 0));
+				 question.setEditable(false);
+				 question.setOpaque(false);
+				 question.setFont(new Font("Serif", 20, 20));
+				 question.setForeground(Color.WHITE);
+				 gameframe.add(question);
 
-				// status = new JTextArea("This is status of user!");
-				// status.setBounds(48, 515, 777, 180);
-				// status.setEditable(false);
-				// status.setOpaque(false);
-				// status.setFont(new Font("Serif", 20, 20));
-				// status.setForeground(Color.WHITE);
-				// JScrollPane scroll = new JScrollPane(status);
-				// contentPane.add(scroll);
-				// frame.add(status);
-				//
+				 status = new JTextArea("This is status of user!");
+				 status.setBounds(48, 515, 777, 180);
+				 status.setEditable(false);
+				 status.setOpaque(false);
+				 status.setFont(new Font("Serif", 20, 20));
+				 status.setForeground(Color.WHITE);
+				 JScrollPane scroll = new JScrollPane(status);
+				 contentPane.add(scroll);
+				 gameframe.add(status);
+				
 				JPanel buttonPanel = new JPanel();
 				buttonPanel.setLayout(new GridLayout(2, 2));
+				buttonPanel.setSize(20,20);
 				buttonPanel.setLocation(750, 490);
 				buttonPanel.setBounds(833, 515, 170, 180);
 
@@ -252,10 +257,6 @@ public class TTC_Client {
 				JButton buttonThree = new JButton(new ImageIcon("three.png"));
 				JButton buttonFour = new JButton(new ImageIcon("Four.png"));
 
-				buttonOne.setText("1");
-				buttonTwo.setText("2");
-				buttonThree.setText("3");
-				buttonFour.setText("4");
 
 				buttonSet(buttonOne);
 				buttonOne.addActionListener(new ActionListener() {
@@ -264,7 +265,7 @@ public class TTC_Client {
 						// here do what you gotta do when the button is clicked
 						JButton b = (JButton) e.getSource();
 						try {
-							answerCheck(b.getText());
+							answerCheck("1");
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -280,7 +281,7 @@ public class TTC_Client {
 						// here do what you gotta do when the button is clicked
 						JButton b = (JButton) e.getSource();
 						try {
-							answerCheck(b.getText());
+							answerCheck("2");
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -296,7 +297,7 @@ public class TTC_Client {
 						// here do what you gotta do when the button is clicked
 						JButton b = (JButton) e.getSource();
 						try {
-							answerCheck(b.getText());
+							answerCheck("3");
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -312,7 +313,7 @@ public class TTC_Client {
 						// here do what you gotta do when the button is clicked
 						JButton b = (JButton) e.getSource();
 						try {
-							answerCheck(b.getText());
+							answerCheck("4");
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -325,21 +326,21 @@ public class TTC_Client {
 				buttonPanel.add(buttonTwo);
 				buttonPanel.add(buttonThree);
 				buttonPanel.add(buttonFour);
-				frame.add(buttonPanel);
+				gameframe.add(buttonPanel);
 
-				frame.setTitle("Time to Catch!");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setResizable(false);
-				frame.setSize(1052, 764);
-				frame.setLocation(450, 125);
-				frame.setVisible(true);
+				gameframe.setTitle("Time to Catch!");
+				gameframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				gameframe.setResizable(false);
+				gameframe.setSize(1052, 764);
+				gameframe.setLocation(450, 125);
+				gameframe.setVisible(true);
 
-				frame.addWindowListener(new WindowAdapter() {
+				gameframe.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) // WindowAdapter
 																// class
 																// Overriding
 					{
-						frame.dispose(); // 내가 사용하던 자원(memory)을 해제하는 method
+						gameframe.dispose(); // 내가 사용하던 자원(memory)을 해제하는 method
 						sendQuit();
 						System.out.println("QUIT");
 						System.exit(0); // 프로그램 종료 하기
@@ -361,11 +362,11 @@ public class TTC_Client {
 					if (line.startsWith("PROBLEM")) {
 						line = line.substring(8, line.length());
 						question.setText(line + "\n\n");
-						frame.repaint();
+//						gameframe.repaint();
 					} else if (line.startsWith("CHOICE")) {
 						line = line.substring(7, line.length());
 						question.append("\t" + line + "\n");
-						frame.repaint();
+//						gameframe.repaint();
 						// print in frame!
 					} else if (line.startsWith("ANSWER")) {
 						answer = Integer.parseInt(line.substring(7, line.length()));
@@ -376,7 +377,7 @@ public class TTC_Client {
 				line = line.substring(7, line.length());
 				status.append(line);
 				status.setCaretPosition(status.getDocument().getLength());
-				frame.repaint();
+//				gameframe.repaint();
 				// print in frame!
 			}
 		}
