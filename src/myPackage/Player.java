@@ -11,55 +11,47 @@ public class Player extends PersonInfo {
 	private static int roomSize;
 	private PrintWriter outToClient;
 	Scanner fileReader = null;
-	
-	Player(Mode m)
-	{
+	String line;
+
+	Player(Mode m) {
 		super(m);
 		currentRoom = -1;
 		team = Team.NONE;
 	}
-	
-	Player()
-	{
+
+	Player() {
 		super();
 		currentRoom = -1;
 		team = Team.NONE;
 	}
-	
-	public void setPrintWriter(PrintWriter o)
-	{
+
+	public void setPrintWriter(PrintWriter o) {
 		outToClient = o;
 	}
-	
-	public int getCurrentRoom()
-	{
+
+	public int getCurrentRoom() {
 		return this.currentRoom;
 	}
-	
-	public void setCurrentRoom(int num)
-	{
+
+	public void setCurrentRoom(int num) {
 		this.currentRoom = num;
 	}
-	
-	public Team getTeam()
-	{
+
+	public Team getTeam() {
 		return team;
 	}
-	
-	public void setTeam(Team t)
-	{
+
+	public void setTeam(Team t) {
 		this.team = t;
 	}
-	
-	public void toClient(String str)
-	{
+
+	public void toClient(String str) {
 		outToClient.println(str);
 	}
-	
-	public void sendProblem(){
+
+	public void sendProblem() {
 		
-		int fileNum = (int) (Math.random()*8); // (int)(Math.random()*'problem
-		// number' + 1)
+		int fileNum = (int) (Math.random() * 8 + 1);
 		String fileName = fileNum + ".txt";
 		try {
 			fileReader = new Scanner(new File(fileName));
@@ -68,19 +60,18 @@ public class Player extends PersonInfo {
 			System.out.println("Error opening file " + fileName);
 			System.exit(0);
 		}
-		String line;
 		while (fileReader.hasNextLine()) {
 			line = fileReader.nextLine();
 			System.out.println(line);
 			this.toClient(line);
 		}
 	}
-	
-	public void goToNextRoom(){
-		currentRoom = (currentRoom +1)%roomSize;
+
+	public void goToNextRoom() {
+		currentRoom = (currentRoom + 1) % roomSize;
 	}
-	
-	public void setRoomSize(int size){
+
+	public void setRoomSize(int size) {
 		roomSize = size;
 	}
 }

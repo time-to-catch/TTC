@@ -19,11 +19,10 @@ public class singleGameStart {
 	public singleGameStart(ArrayList<Player> singlePlayers, Socket soc) throws IOException {
 		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
-
 		System.out.println("-Player List-");
-		for (int i = 0; i < singlePlayers.size(); i++) {
-			System.out.println("user" + i + ": " + currentPlayers.get(i).getName());
-			/* notice to client for game start */
+		
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			System.out.println("user " + i + ": " + currentPlayers.get(i).getName());
 			currentPlayers.get(i).toClient("GAMESTART");
 		}
 
@@ -47,6 +46,7 @@ public class singleGameStart {
 		/* problem send start */
 		for (int i = 0; i < currentPlayers.size(); i++)
 			this.problemSender(i);
+		
 	} // constructor
 
 	public void divideTeam() {
@@ -78,8 +78,7 @@ public class singleGameStart {
 	public void checkingRoomState(int currentID) {
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			{
-				if (currentID != i && currentPlayers.get(i)
-						.getCurrentRoom() == currentPlayers.get(currentID).getCurrentRoom() + 1) {
+				if (currentPlayers.get(i).getCurrentRoom() == currentPlayers.get(currentID).getCurrentRoom() + 1) {
 					sendEnding(i);
 					currentPlayers.get(currentID).goToNextRoom();
 					currentPlayers.get(currentID).toClient("NOTICE YOU CATCH user " + currentPlayers.get(i).getName());

@@ -103,23 +103,23 @@ public class TTC_Server {
 						teamRoom = new teamGameStart(teamPlayers, socket);
 					}
 					
-					
-					
-					
 				}
 				else if(line.startsWith("CORRECT")){
+					System.out.println(line);
 					int personID;
 					line = line.substring(8, line.length());	//extract name
 					
 					personID = singlePlayers.indexOf(line);
 					singleRoom.pass(personID);
+					System.out.println(personID);
 					singleRoom.problemSender(personID);
 				}
 				else if(line.startsWith("INCORRECT")){
 					int personID;
 					line = line.substring(10, line.length());	//extract name
 					personID = singlePlayers.indexOf(line);
-					singleRoom.problemSender(personID-1);
+					System.out.println(personID);
+					singleRoom.problemSender(personID);
 				}
 				else if(line.startsWith("QUIT")){	// "QUIT + name"
 					int personID;
@@ -128,7 +128,6 @@ public class TTC_Server {
 					personID = singlePlayers.indexOf(line);
 					singlePlayers.remove(personID);
 				}
-				
 				
 				}
 
