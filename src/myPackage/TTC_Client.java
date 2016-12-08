@@ -25,9 +25,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 public class TTC_Client {
@@ -35,7 +37,8 @@ public class TTC_Client {
 	static BufferedReader in;
 	static PrintWriter out;
 	int pNum;
-	static int answer;
+	int value;
+	int answer;
 	String name;
 	JFrame frame = new JFrame("Info");
 	JFrame mainFrame;
@@ -50,6 +53,7 @@ public class TTC_Client {
 	Scanner fr = null;
 	JFrame gameframe;
 	Sound bgm;
+	JScrollPane scroll;
 
 	public TTC_Client() {
 		mainFrame = new JFrame();
@@ -247,13 +251,14 @@ public class TTC_Client {
 
 				gameroom.setLayout(null);
 				gameroom.setBounds(0, 0, 1052, 764);
+
 				// gameframe.setLayout(null);
-				// gameframe.setBounds(0, 0, 1052, 764);
+
 				question.setBounds(48, 40, 950, 440);
 				question.setBackground(new Color(51, 0, 0));
 				question.setEditable(false);
 				question.setOpaque(false);
-				question.setFont(new Font("Serif", 20, 20));
+				question.setFont(new Font("Terminal", 20, 20));
 				question.setForeground(Color.WHITE);
 				gameroom.add(question);
 
@@ -262,7 +267,9 @@ public class TTC_Client {
 				status.setOpaque(false);
 				status.setFont(new Font("Serif", 20, 20));
 				status.setForeground(Color.WHITE);
-				JScrollPane scroll = new JScrollPane(status);
+				scroll = new JScrollPane(status);
+				scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				contentPane.add(scroll);
 				status.setCaretPosition(status.getDocument().getLength());
 				gameroom.add(status);
@@ -276,6 +283,11 @@ public class TTC_Client {
 				JButton buttonThree = new JButton(new ImageIcon("three.png"));
 				JButton buttonFour = new JButton(new ImageIcon("Four.png"));
 
+				buttonOne.setOpaque(false);
+				buttonTwo.setOpaque(false);
+				buttonThree.setOpaque(false);
+				buttonFour.setOpaque(false);
+				
 				buttonSet(buttonOne);
 				buttonOne.addActionListener(new ActionListener() {
 					@Override
@@ -354,9 +366,7 @@ public class TTC_Client {
 				gameframe.setVisible(true);
 
 				gameframe.addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent e) // WindowAdapter
-																// class
-																// Overriding
+					public void windowClosing(WindowEvent e) 
 					{
 						new Sound("close.wav", false);
 						gameframe.dispose(); // 내가 사용하던 자원(memory)을 해제하는 method
@@ -403,9 +413,12 @@ public class TTC_Client {
 					status.setForeground(Color.GREEN);
 				else if (color.equalsIgnoreCase("W"))
 					status.setForeground(Color.WHITE);
-				status.append(line + "\n");
+				
+				if(status.getText().length() > 60)
+					status.setText(line + "\n");
+				else
+					status.append(line + "\n");
 				status.setForeground(Color.WHITE);
-				status.setCaretPosition(status.getDocument().getLength());
 				// print in frame!
 			} else if (line.startsWith("GAMEOVER")) {
 				new Sound("knockdown.wav", false);
