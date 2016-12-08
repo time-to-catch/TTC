@@ -108,8 +108,7 @@ public class TTC_Server {
 					System.out.println(line);
 					int personID;
 					line = line.substring(8, line.length());	//extract name
-					
-					personID = singlePlayers.indexOf(line);
+					personID = singleRoom.getPersonID(line);
 					System.out.println(personID);
 					singleRoom.pass(personID);
 					singleRoom.problemSender(personID);

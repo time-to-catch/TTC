@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Player extends PersonInfo {
 	public int currentRoom;
+	private int ID;
 	public Team team;
 	private static int roomSize;
 	private PrintWriter outToClient;
@@ -55,5 +56,13 @@ public class Player extends PersonInfo {
 
 	public void setRoomSize(int size) {
 		roomSize = size;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 }
