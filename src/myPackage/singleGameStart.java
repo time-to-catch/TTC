@@ -1,14 +1,8 @@
 package myPackage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class singleGameStart {
 
@@ -87,13 +81,10 @@ public class singleGameStart {
 
 	public void checkingRoomState(int currentID) {
 
-		int id[] = new int[currentPlayers.size()];
-		int count = 0;
-
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			if (currentPlayers.get(i).getCurrentRoom() == (currentPlayers.get(currentID).getCurrentRoom() + 1)%roomSize) {
 				sendEnding(i);
-				currentPlayers.get(currentID).toClient("NOTICE YOU CATCH user " + currentPlayers.get(i).getName());
+				currentPlayers.get(currentID).toClient("NOTICE G YOU CATCH user " + currentPlayers.get(i).getName());
 				break;
 			}
 		}
@@ -111,18 +102,18 @@ public class singleGameStart {
 
 	public void checkingCloser(int personA, int personB) {
 		if (currentPlayers.get(personA).getCurrentRoom() - currentPlayers.get(personB).getCurrentRoom() == 1) {
-			currentPlayers.get(personA).toClient("NOTICE You can feel warm temperature.");
-			currentPlayers.get(personB).toClient("NOTICE You can hear foot step");
+			currentPlayers.get(personA).toClient("NOTICE G You can feel warm temperature.");
+			currentPlayers.get(personB).toClient("NOTICE R You can hear foot step");
 		} else if (currentPlayers.get(personB).getCurrentRoom() - currentPlayers.get(personA).getCurrentRoom() == 1) {
-			currentPlayers.get(personB).toClient("NOTICE You can feel warm temperature");
-			currentPlayers.get(personA).toClient("NOTICE You can hear foot step");
+			currentPlayers.get(personB).toClient("NOTICE G You can feel warm temperature");
+			currentPlayers.get(personA).toClient("NOTICE R You can hear foot step");
 		} else
 			return;
 	}
 
 	public void sendEnding(int indexOfUser) {
 		currentPlayers.get(indexOfUser).setCurrentRoom(-1);
-		currentPlayers.get(indexOfUser).toClient("NOTICE You are catched by opposing team HAAHAHA");
+		currentPlayers.get(indexOfUser).toClient("NOTICE R You are catched by opposing team HAAHAHA");
 	}
 
 	public void gameOver() {
@@ -150,6 +141,13 @@ public class singleGameStart {
 				return i;
 		}
 		return -1;
+	}
+	
+	public void sendCMessage(int index){
+		currentPlayers.get(index).toClient("NOTICE W Correct! Open the door and go next room.");
+	}
+	public void sendICMessage(int index){
+		currentPlayers.get(index).toClient("NOTICE W Wrong! Solve another problem.");
 	}
 
 }

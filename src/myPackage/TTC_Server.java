@@ -110,6 +110,7 @@ public class TTC_Server {
 					line = line.substring(8, line.length());	//extract name
 					personID = singleRoom.getPersonID(line);
 					System.out.println(personID);
+					singleRoom.sendCMessage(personID);
 					singleRoom.pass(personID);
 					singleRoom.problemSender(personID);
 				}
@@ -119,6 +120,7 @@ public class TTC_Server {
 					System.out.println(line);
 					personID = singleRoom.getPersonID(line);
 					System.out.println(personID);
+					singleRoom.sendICMessage(personID);
 					singleRoom.problemSender(personID);
 				}
 				else if(line.startsWith("QUIT")){	// "QUIT + name"
