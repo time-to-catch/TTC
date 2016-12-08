@@ -32,6 +32,12 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+/*TTC_Client
+ * Class for client. Client runs game(program) and conntects with server.
+ * Client selects the mode and send answer to server when solving the problem.
+ * And all of GUI runs in the client class.
+ * */
+
 public class TTC_Client {
 
 	static BufferedReader in;

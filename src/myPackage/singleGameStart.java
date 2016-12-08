@@ -4,6 +4,14 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+
+/*SingleGameStart
+ * It collects the users and split them into 2 teams by 2 users.
+ * It randomly choose the user as whether user clicked right button or not.
+ * It keeps looking for user's status, informs user if answer is right or wrong,
+ *  and gives warning when the other user is close.
+ * It also tells the user when catches the other user.
+ * */
 public class singleGameStart {
 
    private ArrayList<Player> currentPlayers;
