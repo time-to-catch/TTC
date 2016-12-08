@@ -23,7 +23,6 @@ import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,6 +40,7 @@ public class TTC_Client {
 	JFrame frame = new JFrame("Info");
 	JFrame mainFrame;
 	JFrame wait;
+	JPanel gameroom;
 	JPanel panel;
 	JPanel inP, nonP;
 	JTextField textField = new JTextField(40);
@@ -214,54 +214,59 @@ public class TTC_Client {
 				gameframe = new JFrame();
 				bgm = new Sound("mettaton_ex.wav", true);
 				Container contentPane = gameframe.getContentPane();
-				question = new JTextArea("This is question area!\n");
+				
+				
+				question = new JTextArea("This is question!\n");
 				status = new JTextArea("This is status of user!\n");
 				JPanel buttonPanel = new JPanel();
 
 				if (line.startsWith("NON")) {
 					nonP.setSize(1052, 760);
 					gameframe.setTitle("Noninfectee");
-					gameframe.add(nonP, BorderLayout.CENTER);
-					question.setBackground(new Color(71, 71, 71));
-					status.setBackground(new Color(71, 71, 71));
-					buttonPanel.setBackground(new Color(71, 71, 71));
+					gameroom = new JPanel(){
+						public void paintComponent(Graphics g) {// Graphics객체는 그릴수 있는 도구.				        
+						  super.paintComponent(g);
+							Image backImg = new ImageIcon("TTC_Gui_Noninfectee.png").getImage();
+					      g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
+
+					   }};
 				} else {
 					inP.setSize(1052, 760);
 					gameframe.setTitle("Infectee");
-					gameframe.add(inP, BorderLayout.CENTER);
-					question.setBackground(new Color(51, 0, 0));
-					status.setBackground(new Color(51, 0, 0));
-					buttonPanel.setBackground(new Color(51, 0, 0));
-				}
+					gameroom = new JPanel(){
+						public void paintComponent(Graphics g) {// Graphics객체는 그릴수 있는 도구.				        
+						  super.paintComponent(g);
+							Image backImg = new ImageIcon("TTC_Gui_infectee.png").getImage();
+					      g.drawImage(backImg, 0, 0, getWidth(), getHeight(), this);
 
-				status.setVisible(true);
-				gameframe.setLayout(null);
-				gameframe.setBounds(0, 0, 1052, 764);
+					   }};
+				}
+				
+				gameroom.setLayout(null);
+				gameroom.setBounds(0, 0, 1052, 764);
+//				gameframe.setLayout(null);
+//				gameframe.setBounds(0, 0, 1052, 764);
 				question.setBounds(48, 40, 950, 440);
+				question.setBackground(new Color(51, 0, 0));
 				question.setEditable(false);
-				question.setOpaque(true);
-				question.setFont(new Font("Terminal", 20, 20));
+				question.setOpaque(false);
+				question.setFont(new Font("Serif", 20, 20));
 				question.setForeground(Color.WHITE);
-				JScrollPane scroll1 = new JScrollPane(question);
-				contentPane.add(scroll1);
-				gameframe.add(question);
+				gameroom.add(question);
 
 				status.setBounds(48, 515, 777, 180);
 				status.setEditable(false);
-				status.setOpaque(true);
-				status.setFont(new Font("Terminal", 20, 20));
+				status.setOpaque(false);
+				status.setFont(new Font("Serif", 20, 20));
 				status.setForeground(Color.WHITE);
-				status.setVisible(true);
-				JScrollPane scroll2 = new JScrollPane(status);
-				contentPane.add(scroll2);
-				gameframe.add(status);
+				JScrollPane scroll = new JScrollPane(status);
+				contentPane.add(scroll);
+				status.setCaretPosition(status.getDocument().getLength());
+				gameroom.add(status);
 
 				buttonPanel.setLayout(new GridLayout(2, 2));
-				buttonPanel.setSize(20, 20);
 				buttonPanel.setLocation(750, 490);
 				buttonPanel.setBounds(833, 515, 170, 180);
-				buttonPanel.setOpaque(true);
-				buttonPanel.setVisible(true);
 
 				JButton buttonOne = new JButton(new ImageIcon("one.png"));
 				JButton buttonTwo = new JButton(new ImageIcon("two.png"));
@@ -332,17 +337,13 @@ public class TTC_Client {
 
 				});
 
-				buttonOne.setVisible(true);
-				buttonTwo.setVisible(true);
-				buttonThree.setVisible(true);
-				buttonFour.setVisible(true);
 				buttonPanel.add(buttonOne);
 				buttonPanel.add(buttonTwo);
 				buttonPanel.add(buttonThree);
 				buttonPanel.add(buttonFour);
-				buttonPanel.setVisible(true);
+				gameroom.add(buttonPanel);
 
-				gameframe.add(buttonPanel);
+				gameframe.add(gameroom);
 				gameframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				gameframe.setResizable(false);
 				gameframe.setSize(1052, 764);
@@ -354,6 +355,7 @@ public class TTC_Client {
 																// class
 																// Overriding
 					{
+						new Sound("close.wav", false);
 						gameframe.dispose(); // 내가 사용하던 자원(memory)을 해제하는 method
 						sendQuit();
 						System.out.println("QUIT");
@@ -403,7 +405,6 @@ public class TTC_Client {
 				status.setCaretPosition(status.getDocument().getLength());
 				// print in frame!
 			} else if (line.startsWith("GAMEOVER")) {
-				bgm.stop();
 				new Sound("knockdown.wav", false);
 				status.setForeground(Color.RED);
 				status.append(line + "\n");
@@ -437,13 +438,10 @@ public class TTC_Client {
 	}
 
 	public void buttonSet(JButton b) {
-
 		b.setBackground(Color.WHITE);
-		b.setBorderPainted(false);
+		b.setBorderPainted(true);
 		b.setFocusPainted(false);
 		b.setContentAreaFilled(true);
-		b.setOpaque(false);
-
 	}
 
 	public static void main(String[] args) throws Exception {

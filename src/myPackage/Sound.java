@@ -23,14 +23,4 @@ public class Sound extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
-	public Clip getB()
-	{
-		return clip;
-	}
-	
-	public void stopB(Clip s)
-	{
-		s.stop();
-	}
 }
