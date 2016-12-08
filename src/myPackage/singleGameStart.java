@@ -104,7 +104,7 @@ public class singleGameStart {
 		
 		if (Math.abs(currentPlayers.get(personA).getCurrentRoom() - currentPlayers.get(personB).getCurrentRoom()) == 1)
 		{
-			if(currentPlayers.get(personA).getCurrentRoom()> currentPlayers.get(personB).getCurrentRoom()){
+			if(currentPlayers.get(personA).getCurrentRoom()< currentPlayers.get(personB).getCurrentRoom()){
 			currentPlayers.get(personA).toClient("NOTICE G You can feel warm temperature.");
 			currentPlayers.get(personB).toClient("NOTICE R You can hear foot step");
 			}
