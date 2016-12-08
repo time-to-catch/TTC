@@ -140,5 +140,13 @@ public class singleGameStart {
 		int fileNum = (int) (Math.random() * 8 + 1);
 		currentPlayers.get(personIndex).toClient("PROBLEM " + fileNum);
 	}
+	
+	public int getPersonID(String name){
+		for(int i=0;i<currentPlayers.size();i++){
+			if(name.equalsIgnoreCase(currentPlayers.get(i).getName()))
+					return i;				
+		}
+		return -1;		
+	}
 
 }

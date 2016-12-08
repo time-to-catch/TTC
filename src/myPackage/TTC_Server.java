@@ -110,23 +110,23 @@ public class TTC_Server {
 					line = line.substring(8, line.length());	//extract name
 					
 					personID = singlePlayers.indexOf(line);
-					singleRoom.pass(personID);
 					System.out.println(personID);
+					singleRoom.pass(personID);
 					singleRoom.problemSender(personID);
 				}
 				else if(line.startsWith("INCORRECT")){
 					int personID;
 					line = line.substring(10, line.length());	//extract name
 					System.out.println(line);
-					personID = singlePlayers.indexOf(line);
+					personID = singleRoom.getPersonID(line);
 					System.out.println(personID);
 					singleRoom.problemSender(personID);
 				}
 				else if(line.startsWith("QUIT")){	// "QUIT + name"
 					int personID;
 					line = line.substring(5, line.length());
-					System.out.println("EXIT" + line);
-					personID = singlePlayers.indexOf(line);
+					System.out.println("EXIT " + line);
+					personID = singleRoom.getPersonID(line);
 					singlePlayers.remove(personID);
 				}
 				
@@ -141,4 +141,6 @@ public class TTC_Server {
 		}
 
 	}
+	
+
 }
