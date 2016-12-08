@@ -49,6 +49,7 @@ public class TTC_Client {
 	JTextArea status;
 	Scanner fr = null;
 	JFrame gameframe;
+	Sound bgm;
 
 	public TTC_Client() {
 		mainFrame = new JFrame();
@@ -211,6 +212,7 @@ public class TTC_Client {
 				mainFrame.setVisible(false);
 				mainFrame.dispose();
 				gameframe = new JFrame();
+				bgm = new Sound("mettaton_ex.wav", true);
 				Container contentPane = gameframe.getContentPane();
 				question = new JTextArea("This is question area!\n");
 				status = new JTextArea("This is status of user!\n");
@@ -231,7 +233,7 @@ public class TTC_Client {
 					status.setBackground(new Color(51, 0, 0));
 					buttonPanel.setBackground(new Color(51, 0, 0));
 				}
-				
+
 				status.setVisible(true);
 				gameframe.setLayout(null);
 				gameframe.setBounds(0, 0, 1052, 764);
@@ -265,7 +267,7 @@ public class TTC_Client {
 				JButton buttonTwo = new JButton(new ImageIcon("two.png"));
 				JButton buttonThree = new JButton(new ImageIcon("three.png"));
 				JButton buttonFour = new JButton(new ImageIcon("Four.png"));
-			
+
 				buttonSet(buttonOne);
 				buttonOne.addActionListener(new ActionListener() {
 					@Override
@@ -329,7 +331,7 @@ public class TTC_Client {
 					}
 
 				});
-				
+
 				buttonOne.setVisible(true);
 				buttonTwo.setVisible(true);
 				buttonThree.setVisible(true);
@@ -339,7 +341,7 @@ public class TTC_Client {
 				buttonPanel.add(buttonThree);
 				buttonPanel.add(buttonFour);
 				buttonPanel.setVisible(true);
-				
+
 				gameframe.add(buttonPanel);
 				gameframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				gameframe.setResizable(false);
@@ -389,6 +391,7 @@ public class TTC_Client {
 				color = line.substring(0, 1);
 				line = line.substring(2, line.length());
 				System.out.println(color + " " + line);
+				new Sound("notice.wav", false);
 				if (color.equalsIgnoreCase("R"))
 					status.setForeground(Color.RED);
 				else if (color.equalsIgnoreCase("G"))
@@ -399,8 +402,9 @@ public class TTC_Client {
 				status.setForeground(Color.WHITE);
 				status.setCaretPosition(status.getDocument().getLength());
 				// print in frame!
-			}
-			else if(line.startsWith("GAMEOVER")){
+			} else if (line.startsWith("GAMEOVER")) {
+				bgm.stop();
+				new Sound("knockdown.wav", false);
 				status.setForeground(Color.RED);
 				status.append(line + "\n");
 				break;
@@ -424,9 +428,11 @@ public class TTC_Client {
 		if (answer == Integer.parseInt(num)) {
 			System.out.println("CORRECT");
 			out.println("CORRECT " + name);
+			new Sound("correct.wav", false);
 		} else {
 			System.out.println("INCORRECT");
 			out.println("INCORRECT " + name);
+			new Sound("incorrect.wav", false);
 		}
 	}
 

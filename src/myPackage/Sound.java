@@ -8,8 +8,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class Sound extends Thread {
+	Clip clip;
 	Sound(String file, boolean Loop) {
-		Clip clip;
 		try {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(file)));
 			clip = AudioSystem.getClip();
@@ -22,5 +22,15 @@ public class Sound extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Clip getB()
+	{
+		return clip;
+	}
+	
+	public void stopB(Clip s)
+	{
+		s.stop();
 	}
 }
