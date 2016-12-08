@@ -228,9 +228,11 @@ public class TTC_Client {
 				question = new JTextArea("This is question!\n");
 				status = new JTextArea("This is status of user!\n");
 				JPanel buttonPanel = new JPanel();
-
+				
+				
 				if (line.startsWith("NON")) {
 					nonP.setSize(1052, 760);
+					
 					gameframe.setTitle("Noninfectee");
 					gameroom = new JPanel() {
 						public void paintComponent(Graphics g) {// Graphics객체는
@@ -275,15 +277,17 @@ public class TTC_Client {
 				status.setForeground(Color.WHITE);
 				scroll = new JScrollPane(status);
 				scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				contentPane.add(scroll);
 				status.setCaretPosition(status.getDocument().getLength());
 				gameroom.add(status);
 
 				buttonPanel.setLayout(new GridLayout(2, 2));
-				buttonPanel.setLocation(750, 490);
-				buttonPanel.setBounds(833, 515, 170, 180);
-
+	            buttonPanel.setSize(20, 20);
+	            buttonPanel.setLocation(750, 490);
+	            buttonPanel.setBounds(803, 495, 200, 200);
+	            buttonPanel.setOpaque(false);
+	            
 				JButton buttonOne = new JButton(new ImageIcon("one.png"));
 				JButton buttonTwo = new JButton(new ImageIcon("two.png"));
 				JButton buttonThree = new JButton(new ImageIcon("three.png"));
@@ -293,7 +297,7 @@ public class TTC_Client {
 				buttonTwo.setOpaque(false);
 				buttonThree.setOpaque(false);
 				buttonFour.setOpaque(false);
-				
+
 				buttonSet(buttonOne);
 				buttonOne.addActionListener(new ActionListener() {
 					@Override
@@ -372,8 +376,7 @@ public class TTC_Client {
 				gameframe.setVisible(true);
 
 				gameframe.addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent e) 
-					{
+					public void windowClosing(WindowEvent e) {
 						new Sound("close.wav", false);
 						gameframe.dispose(); // 내가 사용하던 자원(memory)을 해제하는 method
 						sendQuit();
@@ -413,18 +416,21 @@ public class TTC_Client {
 				line = line.substring(2, line.length());
 				System.out.println(color + " " + line);
 				new Sound("notice.wav", false);
-				if (color.equalsIgnoreCase("R"))
-					status.setForeground(Color.RED);
-				else if (color.equalsIgnoreCase("G"))
+				System.out.println(color);
+				switch (color) {
+				case "G":
 					status.setForeground(Color.GREEN);
-				else if (color.equalsIgnoreCase("W"))
+					break;
+				case "R":
+					status.setForeground(Color.RED);
+					break;
+				default:
 					status.setForeground(Color.WHITE);
-				
-				if(status.getText().length() > 60)
+				}
+				if (status.getText().length() > 60)
 					status.setText(line + "\n");
 				else
 					status.append(line + "\n");
-				status.setForeground(Color.WHITE);
 				// print in frame!
 			} else if (line.startsWith("GAMEOVER")) {
 				new Sound("knockdown.wav", false);
@@ -461,7 +467,7 @@ public class TTC_Client {
 
 	public void buttonSet(JButton b) {
 		b.setBackground(Color.WHITE);
-		b.setBorderPainted(true);
+		b.setBorderPainted(false);
 		b.setFocusPainted(false);
 		b.setContentAreaFilled(true);
 	}
