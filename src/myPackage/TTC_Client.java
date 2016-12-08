@@ -39,6 +39,7 @@ public class TTC_Client {
 	JFrame mainFrame;
 	JFrame wait;
 	JPanel panel;
+	JPanel inP, nonP;
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
 	JTextArea question;
@@ -53,6 +54,28 @@ public class TTC_Client {
 				super.paintComponent(g);
 			}
 
+		};
+		
+		nonP = new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("TTC_Gui_Noninfectee.png").getImage(), 0, 0, getWidth(),
+						getHeight(), this);
+				setOpaque(false);
+				System.out.println("change to noninfectee image!");
+//				repaint();
+			}
+		};
+		
+		inP = new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("TTC_Gui_infectee.png").getImage(), 0, 0, getWidth(), getHeight(),
+						this);
+				setOpaque(false);
+				System.out.println("change to infectee image!");
+//				repaint();
+			}
 		};
 
 		JButton Teambtn = new JButton(new ImageIcon("teammatch.png"));
@@ -112,6 +135,7 @@ public class TTC_Client {
 	         {
 	            mainFrame.dispose(); //내가 사용하던 자원(memory)을 해제하는 method
 	            sendQuit();
+	            System.out.println("QUIT");
 	            System.exit(0); //프로그램 종료 하기
 	         }
 		});
@@ -174,7 +198,7 @@ public class TTC_Client {
 				wait.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				wait.setUndecorated(true);
 				wait.setVisible(true);
-
+				//wait.setAlwaysOnTop(true);
 				// start wait!
 			} else if (line.startsWith("GAMESTART")) {
 				// stop wait!
@@ -184,51 +208,37 @@ public class TTC_Client {
 				line = line.substring(5, line.length());
 				// change gui!
 				mainFrame.setVisible(false);
-				mainFrame = new JFrame();
+				mainFrame.dispose();
+				JFrame frame = new JFrame();
+				Container contentPane = frame.getContentPane();
 
-				if (line.equalsIgnoreCase("infectee")) {
-					panel = new JPanel() {
-						public void paintComponent(Graphics g) {
-							g.drawImage(new ImageIcon("TTC_Gui_infectee.png").getImage(), 0, 0, getWidth(), getHeight(),
-									this);
-							setOpaque(false);
-							super.paintComponent(g);
-						}
-					};
+				if (line.startsWith("NON")) {
+					frame.add(nonP);
 				} else {
-					panel = new JPanel() {
-						public void paintComponent(Graphics g) {
-							g.drawImage(new ImageIcon("TTC_Gui_Noninfectee.png").getImage(), 0, 0, getWidth(),
-									getHeight(), this);
-							setOpaque(false);
-							super.paintComponent(g);
-						}
-					};
+					frame.add(inP);
 				}
 
-				mainFrame.setLayout(null);
-				mainFrame.setBounds(0, 0, 1052, 764);
-				mainFrame.add(panel);
-				question = new JTextArea("This is question!");
-				question.setBounds(48, 40, 950, 440);
-				question.setBackground(new Color(51, 0, 0));
-				question.setEditable(false);
-				question.setOpaque(false);
-				question.setFont(new Font("Serif", 20, 20));
-				question.setForeground(Color.WHITE);
-				mainFrame.add(question);
+//				frame.setLayout(null);
+//				frame.setBounds(0, 0, 1052, 764);
+//				question = new JTextArea("This is question!");
+//				question.setBounds(48, 40, 950, 440);
+//				question.setBackground(new Color(51, 0, 0));
+//				question.setEditable(false);
+//				question.setOpaque(false);
+//				question.setFont(new Font("Serif", 20, 20));
+//				question.setForeground(Color.WHITE);
+//				frame.add(question);
 
-				status = new JTextArea("This is status of user!");
-				status.setBounds(48, 515, 777, 180);
-				status.setEditable(false);
-				status.setOpaque(false);
-				status.setFont(new Font("Serif", 20, 20));
-				status.setForeground(Color.WHITE);
-				JScrollPane scroll = new JScrollPane(status);
-				Container contentPane = mainFrame.getContentPane();
-				contentPane.add(scroll);
-				mainFrame.add(status);
-
+//				status = new JTextArea("This is status of user!");
+//				status.setBounds(48, 515, 777, 180);
+//				status.setEditable(false);
+//				status.setOpaque(false);
+//				status.setFont(new Font("Serif", 20, 20));
+//				status.setForeground(Color.WHITE);
+//				JScrollPane scroll = new JScrollPane(status);
+//				contentPane.add(scroll);
+//				frame.add(status);
+//
 				JPanel buttonPanel = new JPanel();
 				buttonPanel.setLayout(new GridLayout(2, 2));
 				buttonPanel.setLocation(750, 490);
@@ -312,23 +322,33 @@ public class TTC_Client {
 				buttonPanel.add(buttonTwo);
 				buttonPanel.add(buttonThree);
 				buttonPanel.add(buttonFour);
-				mainFrame.add(buttonPanel);
+				frame.add(buttonPanel);
 
-				mainFrame.setTitle("Time to Catch!");
-				mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				panel.setVisible(true);
-				mainFrame.add(panel);
-				mainFrame.setResizable(false);
-				mainFrame.setSize(1052, 764);
-				mainFrame.setLocation(450, 125);
-				mainFrame.setVisible(true);
+				frame.setTitle("Time to Catch!");
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setResizable(false);
+				frame.setSize(1052, 764);
+				frame.setLocation(450, 125);
+				frame.setVisible(true);
+				
+				frame.addWindowListener(new WindowAdapter(){
+					public void windowClosing(WindowEvent e) //WindowAdapter class Overriding
+			         {
+			            frame.dispose(); //내가 사용하던 자원(memory)을 해제하는 method
+			            sendQuit();
+			            System.out.println("QUIT");
+			            System.exit(0); //프로그램 종료 하기
+			         }
+				});
 			} else if (line.startsWith("PROBLEM")) {
 				line = line.substring(8, line.length());
 				question.setText(line + "\n\n");
+				frame.repaint();
 				// print in frame!
 			} else if (line.startsWith("CHOICE")) {
 				line = line.substring(7, line.length());
 				question.append("\t" + line + "\n");
+				frame.repaint();
 				// print in frame!
 			} else if (line.startsWith("ANSWER")) {
 				answer = Integer.parseInt(line.substring(7, line.length()));
@@ -337,6 +357,7 @@ public class TTC_Client {
 				line = line.substring(7, line.length());
 				status.append(line);
 				status.setCaretPosition(status.getDocument().getLength());
+				frame.repaint();
 				// print in frame!
 			}
 		}
