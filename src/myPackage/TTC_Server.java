@@ -46,7 +46,7 @@ public class TTC_Server {
 		}
 
 		public void run() {
-
+			String name;
 			try {
 				inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				outToClient = new PrintWriter(socket.getOutputStream(), true);
@@ -54,14 +54,14 @@ public class TTC_Server {
 				// add name
 				while (true) {
 					outToClient.println("SUBMITNAME");
-					line = inFromClient.readLine();
-					if (line == null) {
+					name = inFromClient.readLine();
+					if (name == null) {
 						return;
 					}
 					synchronized (names) {
-						if (!names.contains(line)) {
-							names.add(line);
-							System.out.println("User -" + line + "- Login complete");
+						if (!names.contains(name)) {
+							names.add(name);
+							System.out.println("User -" + name + "- Login complete");
 							break;
 						}
 					}
@@ -77,7 +77,7 @@ public class TTC_Server {
 				if (line.startsWith("MODE")) {
 						
 					line = line.substring(5, line.length());	//name
-					temp.name = line;
+					temp.name = name;
 					temp.mode = Mode.valueOf(line);
 					temp.setPrintWriter(outToClient);
 					if (temp.getMode() == Mode.TEAM)
@@ -92,7 +92,8 @@ public class TTC_Server {
 						singlePlayers.get(i).toClient("WAIT");
 				
 					/*wait for another user*/
-					while(singlePlayers.size()==0&&singlePlayers.size()%2 != 0)
+					while(singlePlayers.size()==0 || singlePlayers.size()%2 != 0)
+						continue;
 					
 					if (singlePlayers.size()!=0&&singlePlayers.size()%2 == 0) {
 						System.out.println("Single Match start");
@@ -118,11 +119,12 @@ public class TTC_Server {
 					int personID;
 					line = line.substring(10, line.length());	//extract name
 					personID = singlePlayers.indexOf(line);
-					singleRoom.problemSender(personID);
+					singleRoom.problemSender(personID-1);
 				}
 				else if(line.startsWith("QUIT")){	// "QUIT + name"
 					int personID;
 					line = line.substring(5, line.length());
+					System.out.println("EXIT" + line);
 					personID = singlePlayers.indexOf(line);
 					singlePlayers.remove(personID);
 				}

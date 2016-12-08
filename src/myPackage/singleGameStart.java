@@ -113,28 +113,7 @@ public class singleGameStart {
 	}
 
 	public void problemSender(int personIndex) {
-
-		int fileNum = (int) (Math.random() + 8); // (int)(Math.random()*'problem
-													// number' + 1)
-		String fileName = fileNum + ".txt";
-		Scanner fileReader = null;
-
-		// file open
-		try {
-			fileReader = new Scanner(new File(fileName));
-			System.out.println("Opening file " + fileName);
-		} catch (FileNotFoundException e) {
-			System.out.println("Error opening file " + fileName);
-			System.exit(0);
-		}
-
-		// transfer problem
-		String line;
-		while (fileReader.hasNextLine()) {
-			line = fileReader.nextLine();
-			System.out.println(line);
-			currentPlayers.get(personIndex).toClient(line);
-		}
+		currentPlayers.get(personIndex).sendProblem();
 	}
 
 	public void pass(int personIndex) {
