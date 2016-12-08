@@ -1,6 +1,5 @@
 package myPackage;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
@@ -25,7 +24,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -37,7 +35,6 @@ public class TTC_Client {
 	static BufferedReader in;
 	static PrintWriter out;
 	int pNum;
-	int value;
 	int answer;
 	String name;
 	JFrame frame = new JFrame("Info");
