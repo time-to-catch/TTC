@@ -66,8 +66,6 @@ public class TTC_Client {
 				super.paintComponent(g);
 				g.drawImage(new ImageIcon("TTC_Gui_Noninfectee.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 				setOpaque(false);
-				System.out.println("change to noninfectee image!");
-				// repaint();
 			};
 		};
 
@@ -76,8 +74,6 @@ public class TTC_Client {
 				super.paintComponent(g);
 				g.drawImage(new ImageIcon("TTC_Gui_infectee.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 				setOpaque(false);
-				System.out.println("change to infectee image!");
-				// repaint();
 			}
 		};
 
@@ -217,32 +213,32 @@ public class TTC_Client {
 				Container contentPane = gameframe.getContentPane();
 
 				if (line.startsWith("NON")) {
-					nonP.setSize(1052, 764);
+					nonP.setSize(1052, 760);
 					gameframe.setTitle("Noninfectee");
-					gameframe.add(nonP);
+					gameframe.add(nonP, BorderLayout.CENTER);
 				} else {
-					inP.setSize(1052, 764);
+					inP.setSize(1052, 760);
 					gameframe.setTitle("Infectee");
-					gameframe.add(inP);
+					gameframe.add(inP, BorderLayout.CENTER);
 				}
 
 				gameframe.setLayout(null);
 				gameframe.setBounds(0, 0, 1052, 764);
 				 question = new JTextArea("This is question!");
 				 question.setBounds(48, 40, 950, 440);
-				 question.setBackground(new Color(51, 0, 0));
+				 //question.setBackground(new Color(51, 0, 0));
 				 question.setEditable(false);
-				 question.setOpaque(false);
+				 question.setOpaque(true);
 				 question.setFont(new Font("Serif", 20, 20));
-				 question.setForeground(Color.WHITE);
+				 //question.setForeground(Color.WHITE);
 				 gameframe.add(question);
 
 				 status = new JTextArea("This is status of user!");
 				 status.setBounds(48, 515, 777, 180);
 				 status.setEditable(false);
-				 status.setOpaque(false);
+				 status.setOpaque(true);
 				 status.setFont(new Font("Serif", 20, 20));
-				 status.setForeground(Color.WHITE);
+				 //status.setForeground(Color.WHITE);
 				 JScrollPane scroll = new JScrollPane(status);
 				 contentPane.add(scroll);
 				 gameframe.add(status);
@@ -252,6 +248,7 @@ public class TTC_Client {
 				buttonPanel.setSize(20,20);
 				buttonPanel.setLocation(750, 490);
 				buttonPanel.setBounds(833, 515, 170, 180);
+				buttonPanel.setOpaque(true);
 
 				JButton buttonOne = new JButton(new ImageIcon("one.png"));
 				JButton buttonTwo = new JButton(new ImageIcon("two.png"));
