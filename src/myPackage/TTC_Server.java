@@ -117,6 +117,7 @@ public class TTC_Server {
 				else if(line.startsWith("INCORRECT")){
 					int personID;
 					line = line.substring(10, line.length());	//extract name
+					System.out.println(line);
 					personID = singlePlayers.indexOf(line);
 					System.out.println(personID);
 					singleRoom.problemSender(personID);

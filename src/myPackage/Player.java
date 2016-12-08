@@ -49,24 +49,6 @@ public class Player extends PersonInfo {
 		outToClient.println(str);
 	}
 
-	public void sendProblem() {
-		
-		int fileNum = (int) (Math.random() * 8 + 1);
-		String fileName = fileNum + ".txt";
-		try {
-			fileReader = new Scanner(new File(fileName));
-			System.out.println("Opening file " + fileName);
-		} catch (FileNotFoundException e) {
-			System.out.println("Error opening file " + fileName);
-			System.exit(0);
-		}
-		while (fileReader.hasNextLine()) {
-			line = fileReader.nextLine();
-			System.out.println(line);
-			this.toClient(line);
-		}
-	}
-
 	public void goToNextRoom() {
 		currentRoom = (currentRoom + 1) % roomSize;
 	}

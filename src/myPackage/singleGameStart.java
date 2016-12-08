@@ -20,7 +20,7 @@ public class singleGameStart {
 		// TODO Auto-generated constructor stub
 		currentPlayers = singlePlayers;
 		System.out.println("-Player List-");
-		
+
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			System.out.println("user " + i + ": " + currentPlayers.get(i).getName());
 			currentPlayers.get(i).toClient("GAMESTART");
@@ -45,8 +45,8 @@ public class singleGameStart {
 
 		/* problem send start */
 		for (int i = 0; i < currentPlayers.size(); i++)
-			this.problemSender(i);
-		
+			problemSender(i);
+
 	} // constructor
 
 	public void divideTeam() {
@@ -75,10 +75,15 @@ public class singleGameStart {
 		}
 	}
 
+	public void pass(int personIndex) {
+		checkingRoomState(personIndex);
+	}
+	
 	public void checkingRoomState(int currentID) {
 		for (int i = 0; i < currentPlayers.size(); i++) {
 			{
-				if (currentPlayers.get(i).getCurrentRoom() == currentPlayers.get(currentID).getCurrentRoom() + 1) {
+				if (currentID != i && (currentPlayers.get(i)
+						.getCurrentRoom() == currentPlayers.get(currentID).getCurrentRoom() + 1)) {
 					sendEnding(i);
 					currentPlayers.get(currentID).goToNextRoom();
 					currentPlayers.get(currentID).toClient("NOTICE YOU CATCH user " + currentPlayers.get(i).getName());
@@ -87,12 +92,11 @@ public class singleGameStart {
 					currentPlayers.get(currentID).goToNextRoom();
 				}
 			}
-			
-			for(int j=i;j<currentPlayers.size();j++){
-				checkingCloser(i,j);
+			for (int j = i; j < currentPlayers.size(); j++) {
+				checkingCloser(i, j);
 			}
-
 		}
+		gameOver();
 	}
 
 	public void checkingCloser(int personA, int personB) {
@@ -103,7 +107,7 @@ public class singleGameStart {
 			currentPlayers.get(personB).toClient("NOTICE You can feel warm temperature");
 			currentPlayers.get(personA).toClient("NOTICE You can hear foot step");
 		}
-
+		else return;
 	}
 
 	public void sendEnding(int indexOfUser) {
@@ -111,11 +115,23 @@ public class singleGameStart {
 		currentPlayers.get(indexOfUser).toClient("NOTICE You are catched by opposing team HAAHAHA");
 	}
 
-	public void problemSender(int personIndex) {
-		currentPlayers.get(personIndex).sendProblem();
+	public void gameOver(){
+		int c=0;
+		for (int i = 0; i < currentPlayers.size(); i++) {
+			if(currentPlayers.get(i).getCurrentRoom()==-1)
+				c++;
+		}
+		
+		if(c==currentPlayers.size()-1)
+			for (int i = 0; i < currentPlayers.size(); i++)
+				currentPlayers.get(i).toClient("GAMEOVER");
+		else
+			return;
 	}
 
-	public void pass(int personIndex) {
-		checkingRoomState(personIndex);
+	public void problemSender(int personIndex) {
+		int fileNum = (int) (Math.random() * 8 + 1);
+		currentPlayers.get(personIndex).toClient("PROBLEM " + fileNum);
 	}
+
 }
