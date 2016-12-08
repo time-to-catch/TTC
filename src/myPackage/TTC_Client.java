@@ -12,10 +12,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -44,6 +47,7 @@ public class TTC_Client {
 	JTextArea messageArea = new JTextArea(8, 40);
 	JTextArea question;
 	JTextArea status;
+	Scanner fr = null;
 
 	public TTC_Client() {
 		mainFrame = new JFrame();
@@ -55,26 +59,24 @@ public class TTC_Client {
 			}
 
 		};
-		
+
 		nonP = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("TTC_Gui_Noninfectee.png").getImage(), 0, 0, getWidth(),
-						getHeight(), this);
+				g.drawImage(new ImageIcon("TTC_Gui_Noninfectee.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 				setOpaque(false);
 				System.out.println("change to noninfectee image!");
-//				repaint();
+				// repaint();
 			}
 		};
-		
+
 		inP = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("TTC_Gui_infectee.png").getImage(), 0, 0, getWidth(), getHeight(),
-						this);
+				g.drawImage(new ImageIcon("TTC_Gui_infectee.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 				setOpaque(false);
 				System.out.println("change to infectee image!");
-//				repaint();
+				// repaint();
 			}
 		};
 
@@ -129,15 +131,16 @@ public class TTC_Client {
 		mainFrame.setSize(1052, 764);
 		mainFrame.setLocation(450, 125);
 		mainFrame.setVisible(true);
-		
-		mainFrame.addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent e) //WindowAdapter class Overriding
-	         {
-	            mainFrame.dispose(); //내가 사용하던 자원(memory)을 해제하는 method
-	            sendQuit();
-	            System.out.println("QUIT");
-	            System.exit(0); //프로그램 종료 하기
-	         }
+
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) // WindowAdapter class
+														// Overriding
+			{
+				mainFrame.dispose(); // 내가 사용하던 자원(memory)을 해제하는 method
+				sendQuit();
+				System.out.println("QUIT");
+				System.exit(0); // 프로그램 종료 하기
+			}
 		});
 	}
 
@@ -198,7 +201,7 @@ public class TTC_Client {
 				wait.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				wait.setUndecorated(true);
 				wait.setVisible(true);
-				//wait.setAlwaysOnTop(true);
+				// wait.setAlwaysOnTop(true);
 				// start wait!
 			} else if (line.startsWith("GAMESTART")) {
 				// stop wait!
@@ -218,27 +221,27 @@ public class TTC_Client {
 					frame.add(inP);
 				}
 
-//				frame.setLayout(null);
-//				frame.setBounds(0, 0, 1052, 764);
-//				question = new JTextArea("This is question!");
-//				question.setBounds(48, 40, 950, 440);
-//				question.setBackground(new Color(51, 0, 0));
-//				question.setEditable(false);
-//				question.setOpaque(false);
-//				question.setFont(new Font("Serif", 20, 20));
-//				question.setForeground(Color.WHITE);
-//				frame.add(question);
+				// frame.setLayout(null);
+				// frame.setBounds(0, 0, 1052, 764);
+				// question = new JTextArea("This is question!");
+				// question.setBounds(48, 40, 950, 440);
+				// question.setBackground(new Color(51, 0, 0));
+				// question.setEditable(false);
+				// question.setOpaque(false);
+				// question.setFont(new Font("Serif", 20, 20));
+				// question.setForeground(Color.WHITE);
+				// frame.add(question);
 
-//				status = new JTextArea("This is status of user!");
-//				status.setBounds(48, 515, 777, 180);
-//				status.setEditable(false);
-//				status.setOpaque(false);
-//				status.setFont(new Font("Serif", 20, 20));
-//				status.setForeground(Color.WHITE);
-//				JScrollPane scroll = new JScrollPane(status);
-//				contentPane.add(scroll);
-//				frame.add(status);
-//
+				// status = new JTextArea("This is status of user!");
+				// status.setBounds(48, 515, 777, 180);
+				// status.setEditable(false);
+				// status.setOpaque(false);
+				// status.setFont(new Font("Serif", 20, 20));
+				// status.setForeground(Color.WHITE);
+				// JScrollPane scroll = new JScrollPane(status);
+				// contentPane.add(scroll);
+				// frame.add(status);
+				//
 				JPanel buttonPanel = new JPanel();
 				buttonPanel.setLayout(new GridLayout(2, 2));
 				buttonPanel.setLocation(750, 490);
@@ -330,29 +333,45 @@ public class TTC_Client {
 				frame.setSize(1052, 764);
 				frame.setLocation(450, 125);
 				frame.setVisible(true);
-				
-				frame.addWindowListener(new WindowAdapter(){
-					public void windowClosing(WindowEvent e) //WindowAdapter class Overriding
-			         {
-			            frame.dispose(); //내가 사용하던 자원(memory)을 해제하는 method
-			            sendQuit();
-			            System.out.println("QUIT");
-			            System.exit(0); //프로그램 종료 하기
-			         }
+
+				frame.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent e) // WindowAdapter
+																// class
+																// Overriding
+					{
+						frame.dispose(); // 내가 사용하던 자원(memory)을 해제하는 method
+						sendQuit();
+						System.out.println("QUIT");
+						System.exit(0); // 프로그램 종료 하기
+					}
 				});
 			} else if (line.startsWith("PROBLEM")) {
 				line = line.substring(8, line.length());
-				question.setText(line + "\n\n");
-				frame.repaint();
-				// print in frame!
-			} else if (line.startsWith("CHOICE")) {
-				line = line.substring(7, line.length());
-				question.append("\t" + line + "\n");
-				frame.repaint();
-				// print in frame!
-			} else if (line.startsWith("ANSWER")) {
-				answer = Integer.parseInt(line.substring(7, line.length()));
-				// check and send result to server!
+				String filename = line + ".txt";
+				try {
+					fr = new Scanner(new File(filename));
+					System.out.println("Opening file " + filename);
+				} catch (FileNotFoundException e) {
+					System.out.println("Error opening file " + filename);
+					System.exit(0);
+				}
+				while (fr.hasNextLine()) {
+					line = fr.nextLine();
+					System.out.println(line);
+					if (line.startsWith("PROBLEM")) {
+						line = line.substring(8, line.length());
+						question.setText(line + "\n\n");
+						frame.repaint();
+					} else if (line.startsWith("CHOICE")) {
+						line = line.substring(7, line.length());
+						question.append("\t" + line + "\n");
+						frame.repaint();
+						// print in frame!
+					} else if (line.startsWith("ANSWER")) {
+						answer = Integer.parseInt(line.substring(7, line.length()));
+						// check and send result to server!
+					}
+				} // print in frame!
 			} else if (line.startsWith("NOTICE")) {
 				line = line.substring(7, line.length());
 				status.append(line);
@@ -371,7 +390,7 @@ public class TTC_Client {
 	public void sendMode(String m) {
 		out.println("MODE " + m);
 	}
-	
+
 	public void sendQuit() {
 		out.println("QUIT " + name);
 	}
@@ -385,14 +404,6 @@ public class TTC_Client {
 			out.println("INCORRECT " + name);
 		}
 	}
-
-	// public void setQst(String line) {
-	// question.setText(line);
-	// }
-	//
-	// public void setStatus(String line) {
-	// status.setText(line);
-	// }
 
 	public void buttonSet(JButton b) {
 
