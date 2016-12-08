@@ -48,7 +48,8 @@ public class TTC_Client {
 	JTextArea question;
 	JTextArea status;
 	Scanner fr = null;
-
+	JFrame gameframe; 
+	
 	public TTC_Client() {
 		mainFrame = new JFrame();
 		panel = new JPanel() {
@@ -212,7 +213,7 @@ public class TTC_Client {
 				// change gui!
 				mainFrame.setVisible(false);
 				mainFrame.dispose();
-				JFrame gameframe = new JFrame();
+				gameframe = new JFrame();
 				Container contentPane = gameframe.getContentPane();
 
 				if (line.startsWith("NON")) {
@@ -362,11 +363,11 @@ public class TTC_Client {
 					if (line.startsWith("PROBLEM")) {
 						line = line.substring(8, line.length());
 						question.setText(line + "\n\n");
-//						gameframe.repaint();
+						gameframe.repaint();
 					} else if (line.startsWith("CHOICE")) {
 						line = line.substring(7, line.length());
 						question.append("\t" + line + "\n");
-//						gameframe.repaint();
+						gameframe.repaint();
 						// print in frame!
 					} else if (line.startsWith("ANSWER")) {
 						answer = Integer.parseInt(line.substring(7, line.length()));
@@ -377,7 +378,7 @@ public class TTC_Client {
 				line = line.substring(7, line.length());
 				status.append(line);
 				status.setCaretPosition(status.getDocument().getLength());
-//				gameframe.repaint();
+				gameframe.repaint();
 				// print in frame!
 			}
 		}
