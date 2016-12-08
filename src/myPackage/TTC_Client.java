@@ -22,6 +22,7 @@ import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,7 +30,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.Style;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 public class TTC_Client {
 
@@ -46,7 +51,10 @@ public class TTC_Client {
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8, 40);
 	JTextArea question;
-	JTextArea status;
+	JTextPane status;
+	StyledDocument doc = status.getStyledDocument();
+	Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+	Style 
 	Scanner fr = null;
 	JFrame gameframe;
 
@@ -212,7 +220,7 @@ public class TTC_Client {
 				gameframe = new JFrame();
 				Container contentPane = gameframe.getContentPane();
 				question = new JTextArea("This is question area!");
-				status = new JTextArea("This is status of user!");
+				status = new JTextPane(); 
 				JPanel buttonPanel = new JPanel();
 
 				if (line.startsWith("NON")) {
@@ -382,8 +390,11 @@ public class TTC_Client {
 					}
 				} // print in frame!
 			} else if (line.startsWith("NOTICE")) {
-				line = line.substring(7, line.length());
-				status.append(line);
+				String color = line.substring(7, 8);
+				line = line.substring(9, line.length());
+				
+				status.append(line+"\n");
+				//status;
 				status.setCaretPosition(status.getDocument().getLength());
 				gameframe.repaint();
 				// print in frame!
